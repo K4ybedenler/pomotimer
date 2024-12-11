@@ -1,0 +1,18 @@
+# build dir
+/build/
+
+# qt junk
+.user/
+.pro.user
+
+# cmake files
+CMakeLists.txt.user
+CMakeCache.txt
+
+# mac spec files
+.DS_Store
+
+# win spec files
+Thumbs.db
+Desktop.ini
+

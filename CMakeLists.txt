@@ -1,0 +1,46 @@
+cmake_minimum_required(VERSION 3.19)
+project(pomotimer LANGUAGES CXX)
+
+find_package(Qt6 6.5 REQUIRED COMPONENTS Core Widgets)
+
+qt_standard_project_setup()
+
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+
+set(CMAKE_AUTOUIC_SEARCH_PATHS ${CMAKE_SOURCE_DIR}/ui)
+
+include_directories(${CMAKE_SOURCE_DIR}/include)
+
+qt_add_executable(pomotimer
+    WIN32 MACOSX_BUNDLE
+    src/main.cpp
+    src/timer.cpp
+    include/timer.h
+    ui/timer.ui
+    resources/pomo.qrc
+    include/clickablelabel.h
+
+)
+
+target_link_libraries(pomotimer
+        PRIVATE
+        Qt::Core
+        Qt::Widgets
+)
+
+include(GNUInstallDirs)
+
+install(TARGETS pomotimer
+    BUNDLE  DESTINATION .
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+)
+
+qt_generate_deploy_app_script(
+    TARGET pomotimer
+    OUTPUT_SCRIPT deploy_script
+    NO_UNSUPPORTED_PLATFORM_ERROR
+)
+install(SCRIPT ${deploy_script})
