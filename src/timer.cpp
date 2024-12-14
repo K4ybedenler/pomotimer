@@ -24,7 +24,6 @@ timer::~timer()
 
 void ClickableLabel::mousePressEvent(QMouseEvent *event) {
     emit ClickLabel();
-    QLabel::mousePressEvent(event);
 }
 
 CircularProgressBar::CircularProgressBar(QWidget *parent)
@@ -32,15 +31,32 @@ CircularProgressBar::CircularProgressBar(QWidget *parent)
     setFixedSize(400, 400);
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &CircularProgressBar::updateProgress);
-    timer->start(1000);
-    ClickableLabel *startButton = new ClickableLabel(this);
-    QPixmap pixmap(":/start.png");
-    startButton->setPixmap(pixmap);
-    startButton->setScaledContents(true);
-    startButton->setGeometry(120, 176, 160, 48);
-    startButton->show();
-    startButton->setAttribute(Qt::WA_Hover);
-    startButton->setCursor(Qt::PointingHandCursor);
+    auto createButton = [this](const QString &iconPath, int x, int y, int h, int w) -> ClickableLabel* {
+        ClickableLabel *button = new ClickableLabel(this);
+        button->setPixmap(QPixmap(iconPath));
+        button->setScaledContents(true);
+        button->setGeometry(x, y, h, w);
+        button->setAttribute(Qt::WA_Hover);
+        button->setCursor(Qt::PointingHandCursor);
+        return button;
+    };
+    ClickableLabel *startButton = createButton(":/start.png", 125, 180, 150, 58);
+    ClickableLabel *pauseButton = createButton(":/pause.png", 125, 180, 150, 58);
+    ClickableLabel *stopButton = createButton(":/stop.png", 125, 180, 150, 58);
+    stopButton->hide();
+    pauseButton->hide();
+    connect(startButton, &ClickableLabel::ClickLabel, [startButton, pauseButton, timer, this]() {
+        this->ZeroProgress();
+        timer->start(1000);
+        startButton->hide();
+        pauseButton->show();
+    });
+    connect(pauseButton, &ClickableLabel::ClickLabel, [pauseButton, startButton, timer, this]() {
+        pauseButton->hide();
+        startButton->show();
+        timer->stop();
+    });
+
 }
 
 CircularProgressBar::~CircularProgressBar() {}
@@ -52,6 +68,15 @@ void CircularProgressBar::updateProgress() {
     }
     progress = 360.0 * elapsedSeconds / totalSeconds;
     update();
+}
+
+void CircularProgressBar::ZeroProgress(){
+    elapsedSeconds = 0;
+    updateProgress();
+}
+
+void CircularProgressBar::PauseTimer(QTimer *timer){
+    timer->stop();
 }
 
 void CircularProgressBar::paintEvent(QPaintEvent *event) {

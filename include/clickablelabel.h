@@ -10,7 +10,6 @@ class ClickableLabel : public QLabel {
 public:
     explicit ClickableLabel(QWidget *parent = nullptr)
         : QLabel(parent) {}
-//    ~ClickableLabel() override;
 
 signals:
     void ClickLabel();
@@ -19,4 +18,4 @@ protected:
     void mousePressEvent(QMouseEvent *event) override;
 };
 
-#endif // CLICKABLELABEL_H
+#endif
