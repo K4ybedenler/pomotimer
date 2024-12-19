@@ -15,13 +15,21 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 
 qt_add_executable(pomotimer
     WIN32 MACOSX_BUNDLE
-    src/main.cpp
-    src/timer.cpp
-    include/timer.h
     ui/timer.ui
     resources/pomo.qrc
-    include/clickablelabel.h
-
+    include/clock_face.h
+    include/clickable_label.h
+    include/circular_progress_bar.h
+    include/timer.h
+    include/action_button.h
+    include/timer_page.h
+    src/main.cpp
+    src/clock_face.cpp
+    src/action_button.cpp
+    src/circular_progress_bar.cpp
+    src/clickable_label.cpp
+    src/timer.cpp
+    src/timer_page.cpp
 )
 
 target_link_libraries(pomotimer

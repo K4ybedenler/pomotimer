@@ -1,11 +1,11 @@
-#include "timer.h"
+#include "timer_page.h"
 
 #include <QApplication>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    timer w;
+    TimerPage w;
     w.show();
     return a.exec();
 }

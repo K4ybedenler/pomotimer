@@ -1,32 +1,27 @@
-#ifndef TIMER_H
-#define TIMER_H
-
 #include <QWidget>
 #include <QPainter>
 #include <QPen>
+#include <QLabel>
 
-QT_BEGIN_NAMESPACE
-namespace Ui {
-class timer;
-}
-QT_END_NAMESPACE
+#ifndef TIMER_H
+#define TIMER_H
 
-
-class CircularProgressBar : public QWidget {
+class Timer : public QWidget
+{
     Q_OBJECT
 
 public:
-    CircularProgressBar(QWidget *parent = nullptr);
-    ~CircularProgressBar();
-    void ZeroProgress();
-    void PauseTimer(QTimer *timer);
-
-public slots:
-    void updateProgress();
-
-protected:
-    void paintEvent(QPaintEvent *event) override;
-    void initializeButton();
+    explicit Timer(QWidget *parent = nullptr);
+    ~Timer();
+    void zeroProgress();
+    void pauseTimer();
+    void pauseTimer(QTimer *timer);
+    void startTimer();
+    void stopTimer();
+    void startCount();
+    int getElapsedSeconds();
+    int getTotalSeconds();
+    QTimer *timer;
 
 private:
     double progress;
@@ -34,19 +29,4 @@ private:
     int elapsedSeconds;
 };
 
-class timer : public QWidget
-{
-    Q_OBJECT
-
-public:
-    timer(QWidget *parent = nullptr);
-    ~timer();
-    void startPomo();
-
-private:
-    Ui::timer *ui;
-
-    CircularProgressBar *progressBar;
-};
-
-#endif // TIMER_H
+#endif
