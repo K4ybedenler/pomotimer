@@ -36,6 +36,7 @@ target_link_libraries(pomotimer
         PRIVATE
         Qt::Core
         Qt::Widgets
+        sqlite3
 )
 
 include(GNUInstallDirs)
