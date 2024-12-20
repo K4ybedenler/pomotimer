@@ -11,12 +11,12 @@ class CircularProgressBar : public QWidget {
 public:
     explicit CircularProgressBar(int x, int y, int h, int w, QWidget *parent = nullptr);
     ~CircularProgressBar();
-    int progress;
 
 public slots:
     void updateProgress(Timer *obj);
 
 protected:
+    double progress;
     void paintEvent(QPaintEvent *event) override;
     void initializeButton();
 };

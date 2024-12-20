@@ -15,15 +15,15 @@ public:
     ~Timer();
     void zeroProgress();
     void pauseTimer();
-    void pauseTimer(QTimer *timer);
     void startTimer();
     void stopTimer();
     void startCount();
     int getElapsedSeconds();
     int getTotalSeconds();
-    QTimer *timer;
+    QTimer *getTimer();
 
 private:
+    QTimer *timer;
     double progress;
     int totalSeconds;
     int elapsedSeconds;

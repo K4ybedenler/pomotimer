@@ -27,8 +27,15 @@ void Timer::stopTimer(){
     elapsedSeconds = 0;
 }
 
-void Timer::pauseTimer(QTimer *timer){
+void Timer::startTimer(){
+    timer->start(1000);
+}
+
+void Timer::pauseTimer(){
     timer->stop();
 }
 
+QTimer *Timer::getTimer(){
+    return timer;
+}
 

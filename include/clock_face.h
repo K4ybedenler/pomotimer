@@ -9,9 +9,10 @@ class ClockFace : public QLabel{
     Q_OBJECT
 
 public:
-    explicit ClockFace(QWidget *parent = nullptr);
+    explicit ClockFace(int x, int y, int h, int w, QWidget *parent = nullptr);
     ~ClockFace();
     QLabel *time;
+    void updateClockFace(int mins, int sex);
 };
 
 #endif
