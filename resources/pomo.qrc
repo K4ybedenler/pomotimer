@@ -1,7 +1,10 @@
 <RCC>
     <qresource prefix="/">
-        <file>start.png</file>
-        <file>stop.png</file>
-        <file>pause.png</file>
+        <file>small_pause.png</file>
+        <file>small_restart.png</file>
+        <file>small_start.png</file>
+        <file>large_finish.png</file>
+        <file>large_pause.png</file>
+        <file>large_start.png</file>
     </qresource>
 </RCC>

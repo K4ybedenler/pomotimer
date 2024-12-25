@@ -19,7 +19,7 @@ Timer::Timer(QWidget *parent)
 
 Timer::~Timer(){
     if(elapsedSeconds) {
-//        stop_pomo();
+        stopTimer();
     }
     sqlite3_finalize(stmtLaunches);
     sqlite3_finalize(stmtRounds);
@@ -43,6 +43,7 @@ int Timer::getTotalSeconds(){
 }
 
 void Timer::stopTimer(){
+    timer->stop();
     elapsedSeconds = 0;
 
     auto currentTime = std::chrono::steady_clock::now();

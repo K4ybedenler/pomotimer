@@ -7,8 +7,10 @@ class ActionButton : public ClickableLabel {
     Q_OBJECT
 
 public:
-    explicit ActionButton(const QString &iconPath, int x, int y, int h, int w, QWidget *parent = nullptr);
+    explicit ActionButton(const QString &iconPath, const QString &btnType, int x, int y, int h, int w, QWidget *parent = nullptr);
     ~ActionButton();
+
+    QString type;
 };
 
 #endif
