@@ -7,4 +7,17 @@
         <file>large_pause.png</file>
         <file>large_start.png</file>
     </qresource>
+    <qresource prefix="/digits">
+        <file alias="0">0.png</file>
+        <file alias="1">1.png</file>
+        <file alias="7">7.png</file>
+        <file alias="8">8.png</file>
+        <file alias="9">9.png</file>
+        <file alias="6">6.png</file>
+        <file alias="5">5.png</file>
+        <file alias="4">4.png</file>
+        <file alias="3">3.png</file>
+        <file alias="2">2.png</file>
+        <file alias="colon">colon.png</file>
+    </qresource>
 </RCC>

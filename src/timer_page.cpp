@@ -25,10 +25,10 @@ TimerPage::TimerPage(QWidget *parent)
             updateButtonState(btn->type);
         });
     }
-    ClockFace *time = new ClockFace(230, 295, 40, 10, this);
+    time = new ClockFace(205, 295, 90, 33, this);
     timerInst = new Timer(this);
 
-    connect(timerInst->getTimer(), &QTimer::timeout, this, [this, time](){
+    connect(timerInst->getTimer(), &QTimer::timeout, this, [this](){
         timerInst->startCount();
         int minutes = timerInst->getElapsedSeconds()/60;
         int remainingSeconds = timerInst->getElapsedSeconds()%60;
@@ -60,6 +60,7 @@ void TimerPage::handleButtonClick(const QString &action) {
     } else if(action == "restart") {
         timerInst->stopTimer();
         progressBar->updateProgress(timerInst);
+        time->updateClockFace(0, 0);
     }
 }
 

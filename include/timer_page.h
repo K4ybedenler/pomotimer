@@ -2,6 +2,7 @@
 #include <action_button.h>
 #include <timer.h>
 #include <circular_progress_bar.h>
+#include <clock_face.h>
 
 #ifndef TIMER_PAGE_H
 #define TIMER_PAGE_H
@@ -31,6 +32,7 @@ private:
     void deleteAllButtons();
     ActionButton *largeStart, *smallStart, *smallPause, *smallRestart;
     QMap<QString, ActionButton*> buttons;
+    ClockFace *time;
 
 private slots:
     void handleButtonClick(const QString &action);
