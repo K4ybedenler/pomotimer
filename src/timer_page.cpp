@@ -4,12 +4,15 @@
 #include <clock_face.h>
 #include <circular_progress_bar.h>
 #include <timer.h>
+#include <widget_window.h>
 
 TimerPage::~TimerPage(){}
 
-TimerPage::TimerPage(QWidget *parent)
+TimerPage::TimerPage(Timer *timerInst, QWidget *parent)
     : QWidget(parent)
 {
+    setFixedSize(500, 500);
+    setStyleSheet("background-color: #3c423d;");
     progressBar = new CircularProgressBar(50, 50, 400, 400, this);
 
     buttons["largeStart"] = new ActionButton(":/large_start.png", "start", 175, 230, 150, 60, this);
@@ -17,18 +20,30 @@ TimerPage::TimerPage(QWidget *parent)
     buttons["smallPause"] = new ActionButton(":/small_pause.png", "pause", 175, 230, 60, 60, this);
     buttons["smallRestart"] = new ActionButton(":/small_restart.png", "restart", 265, 230, 60, 60, this);
 
+    ActionButton *bigDick = new ActionButton(":/digits/0", "nothing", 400, 50, 11, 11, this);
+    bigDick->show();
+
     buttons["largeStart"]->show();
 
     for(ActionButton *btn : buttons) {
-        connect(btn, &ClickableLabel::ClickLabel, this, [this, btn](){
-            handleButtonClick(btn->type);
+        connect(btn, &ClickableLabel::ClickLabel, this, [this, btn, timerInst](){
+            handleButtonClick(timerInst, btn->type);
             updateButtonState(btn->type);
         });
     }
-    time = new ClockFace(205, 295, 90, 33, this);
-    timerInst = new Timer(this);
+    time = new ClockFace(205, 295, 120, 44, this);
 
-    connect(timerInst->getTimer(), &QTimer::timeout, this, [this](){
+    connect(bigDick, &ClickableLabel::ClickLabel, this, [this, timerInst]() {
+        QScreen *screen = QGuiApplication::primaryScreen();
+        QRect size = screen->geometry();
+
+        this->close();
+        auto widget = new WidgetWindow(timerInst);
+        widget->setAttribute(Qt::WA_DeleteOnClose);
+        widget->show();
+    });
+
+    connect(timerInst->getTimer(), &QTimer::timeout, this, [this, timerInst](){
         timerInst->startCount();
         int minutes = timerInst->getElapsedSeconds()/60;
         int remainingSeconds = timerInst->getElapsedSeconds()%60;
@@ -52,7 +67,7 @@ void TimerPage::updateButtonState(const QString &action) {
     }
 }
 
-void TimerPage::handleButtonClick(const QString &action) {
+void TimerPage::handleButtonClick(Timer *timerInst, const QString &action) {
     if(action == "start") {
         timerInst->startTimer();
     } else if(action == "pause") {

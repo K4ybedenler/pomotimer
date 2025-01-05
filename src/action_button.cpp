@@ -14,4 +14,6 @@ ActionButton::ActionButton(const QString &iconPath, const QString &btnType, int 
     hide();
 }
 
-ActionButton::~ActionButton(){}
+ActionButton::~ActionButton(){
+    qDebug() << "ActionButton" << type << "destroyed";
+}

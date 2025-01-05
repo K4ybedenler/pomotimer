@@ -11,7 +11,6 @@ class ClockFace : public QLabel{
 public:
     explicit ClockFace(int x, int y, int w, int h, QWidget *parent = nullptr);
     ~ClockFace();
-    QLabel *time;
     void updateClockFace(int mins, int sex);
 
 private:

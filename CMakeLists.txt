@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.19)
 project(pomotimer LANGUAGES CXX)
 
-find_package(Qt6 6.5 REQUIRED COMPONENTS Core Widgets)
+find_package(Qt6 6.5 REQUIRED COMPONENTS Core Widgets Multimedia)
 
 qt_standard_project_setup()
 
@@ -23,6 +23,7 @@ qt_add_executable(pomotimer
     include/timer.h
     include/action_button.h
     include/timer_page.h
+    include/widget_window.h
     src/main.cpp
     src/clock_face.cpp
     src/action_button.cpp
@@ -30,6 +31,7 @@ qt_add_executable(pomotimer
     src/clickable_label.cpp
     src/timer.cpp
     src/timer_page.cpp
+    src/widget_window.cpp
 )
 
 target_link_libraries(pomotimer
@@ -37,6 +39,7 @@ target_link_libraries(pomotimer
         Qt::Core
         Qt::Widgets
         sqlite3
+        Qt::Multimedia
 )
 
 include(GNUInstallDirs)

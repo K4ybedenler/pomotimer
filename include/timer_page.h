@@ -18,10 +18,9 @@ class TimerPage : public QWidget
     Q_OBJECT
 
 public:
-    explicit TimerPage(QWidget *parent = nullptr);
+    explicit TimerPage(Timer *timerInst, QWidget *parent = nullptr);
     ~TimerPage();
 
-    Timer *timerInst;
     CircularProgressBar *progressBar;
 
     void createButton(const QString &iconPath, const QString &action, int x, int y, int h, int w, QWidget *parent = nullptr);
@@ -35,7 +34,7 @@ private:
     ClockFace *time;
 
 private slots:
-    void handleButtonClick(const QString &action);
+    void handleButtonClick(Timer *timerInst, const QString &action);
     void updateButtonState(const QString &action);
 
 };

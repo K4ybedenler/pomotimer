@@ -18,7 +18,7 @@ ClockFace::ClockFace(int x, int y, int w, int h, QWidget *parent)
         digitsLabels[i]->setScaledContents(true);
     }
 
-    QHBoxLayout *face = new QHBoxLayout(this);
+    auto *face = new QHBoxLayout(this);
     for(int i = 0; i<5; i++) {
         face->addWidget(digitsLabels[i]);
     }

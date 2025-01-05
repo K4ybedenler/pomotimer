@@ -20,4 +20,7 @@
         <file alias="2">2.png</file>
         <file alias="colon">colon.png</file>
     </qresource>
+    <qresource prefix="/sound_effects">
+        <file>bone_shell.mp3</file>
+    </qresource>
 </RCC>
