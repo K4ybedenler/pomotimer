@@ -6,9 +6,11 @@
 #include <clock_face.h>
 #include <timer.h>
 #include <QTimer>
-#include <timer_page.h>
+#include <page_controller.h>
 
-WidgetWindow::WidgetWindow(Timer *timerInst) {
+WidgetWindow::WidgetWindow(Timer *timerInst)
+    :TimerPage(timerInst)
+{
     setFixedSize(106, 68);
     setStyleSheet("background-color: #3c423d;");
 
@@ -18,6 +20,9 @@ WidgetWindow::WidgetWindow(Timer *timerInst) {
     buttons["smallStart"]->show();
     buttons["smallRestart"] = new ActionButton(":/small_restart.png", "restart", 72, 34, 30, 30, this);
     buttons["smallRestart"]->show();
+
+
+    establishButtonConnection(timerInst);
 
     QMediaPlayer *player = new QMediaPlayer;
     QAudioOutput *audioOutput = new QAudioOutput;
@@ -36,11 +41,12 @@ WidgetWindow::WidgetWindow(Timer *timerInst) {
 
     ActionButton *bigDick = new ActionButton(":/digits/0", "nothing", 90, 10, 11, 11, this);
     bigDick->show();
+}
 
-    connect(bigDick, &ClickableLabel::ClickLabel, this, [this, timerInst]() {
-        this->close();
-        auto e = new TimerPage(timerInst);
-        e->setAttribute(Qt::WA_DeleteOnClose);
-        e->show();
-    });
+void WidgetWindow::handleButtonClick(Timer *timerInst, const QString &action){
+    qDebug() << "do nothing";
+}
+
+void WidgetWindow::updateButtonState(const QString &action){
+    qDebug() << "do nothing";
 }

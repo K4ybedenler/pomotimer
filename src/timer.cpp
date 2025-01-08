@@ -32,7 +32,6 @@ void Timer::startCount(){
     if (elapsedSeconds > totalSeconds) {
         elapsedSeconds = 0;
     }
-    qDebug() << "instance here<--";
 }
 
 int Timer::getElapsedSeconds(){

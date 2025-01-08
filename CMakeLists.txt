@@ -11,35 +11,45 @@ set(CMAKE_AUTOUIC ON)
 
 set(CMAKE_AUTOUIC_SEARCH_PATHS ${CMAKE_SOURCE_DIR}/ui)
 
-include_directories(${CMAKE_SOURCE_DIR}/include)
+include_directories(
+    ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/include/ui
+    ${CMAKE_SOURCE_DIR}/include/utils
+)
 
 qt_add_executable(pomotimer
     WIN32 MACOSX_BUNDLE
-    ui/timer.ui
     resources/pomo.qrc
-    include/clock_face.h
-    include/clickable_label.h
-    include/circular_progress_bar.h
-    include/timer.h
-    include/action_button.h
-    include/timer_page.h
-    include/widget_window.h
+    src/utils/page_controller.cpp
+    src/ui/clock_face.cpp
+    src/ui/action_button.cpp
+    src/ui/circular_progress_bar.cpp
+    src/ui/clickable_label.cpp
+    src/ui/timer_page.cpp
+    src/ui/page.cpp
     src/main.cpp
-    src/clock_face.cpp
-    src/action_button.cpp
-    src/circular_progress_bar.cpp
-    src/clickable_label.cpp
     src/timer.cpp
-    src/timer_page.cpp
+    src/main_page.cpp
     src/widget_window.cpp
+
+    include/utils/page_controller.h
+    include/ui/clock_face.h
+    include/ui/action_button.h
+    include/ui/circular_progress_bar.h
+    include/ui/clickable_label.h
+    include/ui/timer_page.h
+    include/ui/page.h
+    include/main_page.h
+    include/widget_window.h
+    include/timer.h
 )
 
 target_link_libraries(pomotimer
         PRIVATE
         Qt::Core
         Qt::Widgets
-        sqlite3
         Qt::Multimedia
+        sqlite3
 )
 
 include(GNUInstallDirs)

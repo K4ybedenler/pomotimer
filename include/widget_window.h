@@ -5,17 +5,21 @@
 #include <action_button.h>
 #include <QSoundEffect>
 #include <timer.h>
+#include <timer_page.h>
 
-class WidgetWindow : public QWidget
+class WidgetWindow : public TimerPage
 {
     Q_OBJECT
 
 public:
     WidgetWindow(Timer *timerInst);
-    QMap<QString, ActionButton*> buttons;
 
 private:
     QSoundEffect effect;
+
+private slots:
+    void handleButtonClick(Timer *timerInst, const QString &action) override;
+    void updateButtonState(const QString &action) override;
 
 };
 

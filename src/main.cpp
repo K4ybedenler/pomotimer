@@ -1,15 +1,15 @@
-#include "timer_page.h"
+#include "main_page.h"
 #include "timer.h"
+#include "page_controller.h"
 
 #include <QApplication>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    Timer *timer = new Timer;
-    TimerPage *mainWindow = new TimerPage(timer);
-    mainWindow->setAttribute(Qt::WA_DeleteOnClose);
-    mainWindow->show();
+    auto *timer = new Timer;
+    auto *mainWindow = new MainPage(timer);
+    auto *controller = new PageController(mainWindow, timer);
 
     return a.exec();
 }

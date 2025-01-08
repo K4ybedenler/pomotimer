@@ -1,15 +1,15 @@
 #include <QTimer>
-#include <timer_page.h>
+#include <main_page.h>
 #include <action_button.h>
 #include <clock_face.h>
 #include <circular_progress_bar.h>
 #include <timer.h>
-#include <widget_window.h>
+#include <page_controller.h>
 
-TimerPage::~TimerPage(){}
+MainPage::~MainPage(){}
 
-TimerPage::TimerPage(Timer *timerInst, QWidget *parent)
-    : QWidget(parent)
+MainPage::MainPage(Timer *timerInst)
+    :TimerPage(timerInst)
 {
     setFixedSize(500, 500);
     setStyleSheet("background-color: #3c423d;");
@@ -20,39 +20,24 @@ TimerPage::TimerPage(Timer *timerInst, QWidget *parent)
     buttons["smallPause"] = new ActionButton(":/small_pause.png", "pause", 175, 230, 60, 60, this);
     buttons["smallRestart"] = new ActionButton(":/small_restart.png", "restart", 265, 230, 60, 60, this);
 
+    establishButtonConnection(timerInst);
+
     ActionButton *bigDick = new ActionButton(":/digits/0", "nothing", 400, 50, 11, 11, this);
     bigDick->show();
 
     buttons["largeStart"]->show();
 
-    for(ActionButton *btn : buttons) {
-        connect(btn, &ClickableLabel::ClickLabel, this, [this, btn, timerInst](){
-            handleButtonClick(timerInst, btn->type);
-            updateButtonState(btn->type);
-        });
-    }
     time = new ClockFace(205, 295, 120, 44, this);
 
-    connect(bigDick, &ClickableLabel::ClickLabel, this, [this, timerInst]() {
-        QScreen *screen = QGuiApplication::primaryScreen();
-        QRect size = screen->geometry();
-
-        this->close();
-        auto widget = new WidgetWindow(timerInst);
-        widget->setAttribute(Qt::WA_DeleteOnClose);
-        widget->show();
-    });
-
-    connect(timerInst->getTimer(), &QTimer::timeout, this, [this, timerInst](){
-        timerInst->startCount();
-        int minutes = timerInst->getElapsedSeconds()/60;
-        int remainingSeconds = timerInst->getElapsedSeconds()%60;
-        time->updateClockFace(minutes, remainingSeconds);
-        progressBar->updateProgress(timerInst);
-    });
+    connect(this, &TimerPage::progressTime, this, &MainPage::updateProgressBar);
 }
 
-void TimerPage::updateButtonState(const QString &action) {
+void MainPage::updateProgressBar(Timer *timerInst)
+{
+    progressBar->updateProgress(timerInst);
+}
+
+void MainPage::updateButtonState(const QString &action) {
     for(ActionButton *btn : buttons){
         btn->hide();
     }
@@ -64,10 +49,12 @@ void TimerPage::updateButtonState(const QString &action) {
         buttons["smallStart"]->show();
     } else if (action == "restart") {
         buttons["largeStart"]->show();
+    } else if (action == "openWidget") {
+        qDebug() << "still no desision";
     }
 }
 
-void TimerPage::handleButtonClick(Timer *timerInst, const QString &action) {
+void MainPage::handleButtonClick(Timer *timerInst, const QString &action) {
     if(action == "start") {
         timerInst->startTimer();
     } else if(action == "pause") {
@@ -76,6 +63,8 @@ void TimerPage::handleButtonClick(Timer *timerInst, const QString &action) {
         timerInst->stopTimer();
         progressBar->updateProgress(timerInst);
         time->updateClockFace(0, 0);
+    } else if(action == "openWidget"){
+        emit switchRequest("widget_window");
     }
 }
 
