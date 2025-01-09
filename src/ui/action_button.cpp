@@ -15,5 +15,4 @@ ActionButton::ActionButton(const QString &iconPath, const QString &btnType, int 
 }
 
 ActionButton::~ActionButton(){
-    qDebug() << "ActionButton" << type << "destroyed";
 }

@@ -23,7 +23,7 @@ MainPage::MainPage(Timer *timerInst)
     buttons["openWidget"] = new ActionButton(":/digits/0", "open_widget", 400, 50, 11, 11, this);
     buttons["openWidget"]->show();
 
-    time = new ClockFace(205, 295, 120, 44, this);
+    time = new ClockFace(205, 295, 120, 44, timerInst->getElapsedSeconds()/60, timerInst->getElapsedSeconds()%60, this);
 
     connect(this, &TimerPage::progressTime, this, &MainPage::updateProgressBar);
     establishButtonConnection(timerInst);

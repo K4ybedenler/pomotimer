@@ -22,7 +22,7 @@ WidgetWindow::WidgetWindow(Timer *timerInst)
     buttons["openMain"] = new ActionButton(":/digits/0", "open_main", 90, 10, 11, 11, this);
     buttons["openMain"]->show();
 
-    time = new ClockFace(23, 4, 60, 22, this, timerInst->getElapsedSeconds()/60, timerInst->getElapsedSeconds()%60);
+    time = new ClockFace(23, 4, 60, 22, timerInst->getElapsedSeconds()/60, timerInst->getElapsedSeconds()%60, this);
 
     establishButtonConnection(timerInst);
 
