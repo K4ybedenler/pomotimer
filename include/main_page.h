@@ -4,7 +4,6 @@
 #include <timer.h>
 #include <circular_progress_bar.h>
 #include <clock_face.h>
-#include <page_controller.h>
 
 #ifndef MAIN_PAGE_H
 #define MAIN_PAGE_H
@@ -20,11 +19,9 @@ public:
 
 private:
     CircularProgressBar *progressBar;
-    ClockFace *time;
 
 private slots:
     void updateProgressBar(Timer *timerInst);
-    void handleButtonClick(Timer *timerInst, const QString &action) override;
     void updateButtonState(const QString &action) override;
 
 };

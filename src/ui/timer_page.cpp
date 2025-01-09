@@ -5,8 +5,10 @@
 
 TimerPage::TimerPage(Timer *timerInst)
 {
+}
 
-
+void TimerPage::establishButtonConnection(Timer *timerInst)
+{
     connect(timerInst->getTimer(), &QTimer::timeout, this, [this, timerInst](){
         timerInst->startCount();
         int minutes = timerInst->getElapsedSeconds()/60;
@@ -14,16 +16,26 @@ TimerPage::TimerPage(Timer *timerInst)
         time->updateClockFace(minutes, remainingSeconds);
         emit progressTime(timerInst);
     });
-}
 
-void TimerPage::establishButtonConnection(Timer *timerInst)
-{
-        qDebug() << "hey";
     for(ActionButton *btn : buttons) {
         connect(btn, &ClickableLabel::ClickLabel, this, [this, btn, timerInst](){
-            qDebug() << "hey you";
             handleButtonClick(timerInst, btn->type);
             updateButtonState(btn->type);
         });
+    }
+}
+
+void TimerPage::handleButtonClick(Timer *timerInst, const QString &action) {
+    if(action == "start") {
+        timerInst->startTimer();
+    } else if(action == "pause") {
+        timerInst->pauseTimer();
+    } else if(action == "restart") {
+        timerInst->stopTimer();
+        time->updateClockFace(0, 0);
+    } else if(action == "open_widget"){
+        emit switchRequest("widget_window");
+    } else if(action == "open_main"){
+        emit switchRequest("main_page");
     }
 }

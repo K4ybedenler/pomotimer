@@ -5,7 +5,7 @@
 #include <QLabel>
 #include <QHBoxLayout>
 
-ClockFace::ClockFace(int x, int y, int w, int h, QWidget *parent)
+ClockFace::ClockFace(int x, int y, int w, int h, QWidget *parent, int mins, int sex)
     : QLabel(parent) {
     setGeometry(x, y, w, h);
 
@@ -26,11 +26,8 @@ ClockFace::ClockFace(int x, int y, int w, int h, QWidget *parent)
     face->setContentsMargins(0, 0, 0, 0);
 
     setLayout(face);
-
-    updateClockFace(0, 0);
-
-//    setAlignment(Qt::AlignCenter);
-//    setText("00:00");
+    updateClockFace(mins, sex);
+    show();
 }
 
 ClockFace::~ClockFace(){}

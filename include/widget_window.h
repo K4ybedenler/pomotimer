@@ -18,7 +18,6 @@ private:
     QSoundEffect effect;
 
 private slots:
-    void handleButtonClick(Timer *timerInst, const QString &action) override;
     void updateButtonState(const QString &action) override;
 
 };

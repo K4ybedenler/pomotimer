@@ -137,3 +137,4 @@ void Timer::pushStatement(sqlite3_stmt *stmt) {
     sqlite3_reset(stmt);
     sqlite3_clear_bindings(stmt);
 }
+

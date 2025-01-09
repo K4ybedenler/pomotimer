@@ -16,13 +16,14 @@ public:
     explicit Timer(QWidget *parent = nullptr);
     ~Timer();
 
-    void zeroProgress();
     void pauseTimer();
     void startTimer();
     void stopTimer();
     void startCount();
+
     int getElapsedSeconds();
     int getTotalSeconds();
+
     QTimer *getTimer();
 
 private:

@@ -8,6 +8,7 @@
 CircularProgressBar::CircularProgressBar(int x, int y, int h, int w, QWidget *parent)
     : QWidget(parent), progress(0) {
     setGeometry(x, y, h, w);
+    show();
 };
 
 CircularProgressBar::~CircularProgressBar() {};

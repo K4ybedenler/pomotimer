@@ -1,17 +1,17 @@
 #ifndef PAGE_CONTROLLER_H
 #define PAGE_CONTROLLER_H
 
-#include <QObject>
+#include "page.h"
 
-class Page;
-class Timer;
+#include <QObject>
 
 class PageController : public QObject
 {
     Q_OBJECT
 public:
-    explicit PageController(Page *page, Timer *timerInst);
-    void switchToPage(QWidget *page, const QString &nextPage, Timer *timerInst);
+    explicit PageController(Timer *timerInst);
+    void switchToPage(const QString &nextPage, Timer *timerInst);
+    Page *page;
 
 signals:
 };
