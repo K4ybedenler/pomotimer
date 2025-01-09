@@ -1,8 +1,5 @@
 #include "widget_window.h"
 #include "action_button.h"
-#include <QMediaPlayer>
-#include <QAudioOutput>
-#include <QMediaFormat>
 #include <clock_face.h>
 #include <timer.h>
 #include <QTimer>
@@ -25,12 +22,6 @@ WidgetWindow::WidgetWindow(Timer *timerInst)
     time = new ClockFace(23, 4, 60, 22, timerInst->getElapsedSeconds()/60, timerInst->getElapsedSeconds()%60, this);
 
     establishButtonConnection(timerInst);
-
-    QMediaPlayer *player = new QMediaPlayer;
-    QAudioOutput *audioOutput = new QAudioOutput;
-    player->setAudioOutput(audioOutput);
-    player->setSource(QUrl("qrc:/sound_effects/bone_shell.mp3"));
-    audioOutput->setVolume(100);
 }
 
 void WidgetWindow::updateButtonState(const QString &action) {

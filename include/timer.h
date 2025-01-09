@@ -8,12 +8,12 @@
 #ifndef TIMER_H
 #define TIMER_H
 
-class Timer : public QWidget
+class Timer : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit Timer(QWidget *parent = nullptr);
+    explicit Timer();
     ~Timer();
 
     void pauseTimer();

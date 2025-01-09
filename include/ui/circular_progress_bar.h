@@ -1,6 +1,7 @@
+#include <timer.h>
+
 #include <QLabel>
 #include <QWidget>
-#include <timer.h>
 
 #ifndef CIRCULAR_PROGRESS_BAR_H
 #define CIRCULAR_PROGRESS_BAR_H

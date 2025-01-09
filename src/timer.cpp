@@ -1,9 +1,12 @@
 #include <timer.h>
 #include <QTimer>
 #include <sqlite3.h>
+#include <QMediaPlayer>
+#include <QAudioOutput>
+#include <QMediaFormat>
 
-Timer::Timer(QWidget *parent)
-    : QWidget(parent), totalSeconds(1800), elapsedSeconds(0) {
+Timer::Timer()
+    :totalSeconds(1800), elapsedSeconds(0) {
     timer = new QTimer(this);
 
     if (sqlite3_open("pomobase.db", &db)) {
@@ -15,6 +18,12 @@ Timer::Timer(QWidget *parent)
     queryPrepare(insertLaunch, stmtLaunches);
     queryPrepare(insertRound, stmtRounds);
     queryPrepare(lastLaunchId, stmtLastId);
+
+//    QMediaPlayer *player = new QMediaPlayer;
+//    QAudioOutput *audioOutput = new QAudioOutput;
+//    player->setAudioOutput(audioOutput);
+//    player->setSource(QUrl("qrc:/sound_effects/bone_shell.mp3"));
+//    audioOutput->setVolume(100);
 }
 
 Timer::~Timer(){

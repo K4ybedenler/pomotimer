@@ -1,4 +1,3 @@
-#include <clickable_label.h>
 #include <action_button.h>
 
 

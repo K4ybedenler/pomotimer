@@ -1,8 +1,5 @@
 #include <circular_progress_bar.h>
-#include <QTimer>
 #include <clickable_label.h>
-#include <QPainter>
-#include <QPen>
 #include <timer.h>
 
 CircularProgressBar::CircularProgressBar(int x, int y, int h, int w, QWidget *parent)
