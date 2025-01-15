@@ -1,26 +1,31 @@
 <RCC>
     <qresource prefix="/">
-        <file>small_pause.png</file>
-        <file>small_restart.png</file>
-        <file>small_start.png</file>
-        <file>large_finish.png</file>
-        <file>large_pause.png</file>
-        <file>large_start.png</file>
+        <file>device.png</file>
     </qresource>
     <qresource prefix="/digits">
-        <file alias="0">0.png</file>
-        <file alias="1">1.png</file>
-        <file alias="7">7.png</file>
-        <file alias="8">8.png</file>
-        <file alias="9">9.png</file>
-        <file alias="6">6.png</file>
-        <file alias="5">5.png</file>
-        <file alias="4">4.png</file>
-        <file alias="3">3.png</file>
-        <file alias="2">2.png</file>
-        <file alias="colon">colon.png</file>
+        <file alias="0">clock_face/0.png</file>
+        <file alias="colon">clock_face/colon.png</file>
+        <file alias="3">clock_face/3.png</file>
+        <file alias="5">clock_face/5.png</file>
+        <file alias="9">clock_face/9.png</file>
+        <file alias="1">clock_face/1.png</file>
+        <file alias="2">clock_face/2.png</file>
+        <file alias="6">clock_face/6.png</file>
+        <file alias="7">clock_face/7.png</file>
+        <file alias="8">clock_face/8.png</file>
+        <file alias="4">clock_face/4.png</file>
     </qresource>
     <qresource prefix="/sound_effects">
         <file>bone_shell.mp3</file>
+    </qresource>
+    <qresource prefix="/buttons">
+        <file alias="yellow">buttons/yellow.png</file>
+        <file alias="red">buttons/red.png</file>
+        <file alias="pomo">buttons/pomo.png</file>
+        <file alias="pomo_pressed">buttons/pomo_pressed.png</file>
+        <file alias="pause">buttons/pause.png</file>
+        <file alias="pause_pressed">buttons/pause_pressed.png</file>
+        <file alias="red_pressed">buttons/red_pressed.png</file>
+        <file alias="yellow_pressed">buttons/yellow_pressed.png</file>
     </qresource>
 </RCC>

@@ -8,21 +8,23 @@
 ClockFace::ClockFace(int x, int y, int w, int h, int mins, int sex, QWidget *parent)
     : QLabel(parent) {
     setGeometry(x, y, w, h);
+    setStyleSheet("background: transparent;");
 
     for(int i = 0; i<5; i++) {
         digitsLabels[i] = new QLabel(this);
-        digitsLabels[i]->setFixedSize(w / 6.6, h);
-        if(i == 2){
-            digitsLabels[i]->setFixedSize(w / 15, h * 7 / 11);
-        }
         digitsLabels[i]->setScaledContents(true);
+        if(i==2){
+            digitsLabels[i]->setFixedSize(9*3, 19*3);
+        } else {
+            digitsLabels[i]->setFixedSize(17*3, 19*3);
+        }
     }
 
     auto *face = new QHBoxLayout(this);
     for(int i = 0; i<5; i++) {
         face->addWidget(digitsLabels[i]);
     }
-    face->setSpacing(0);
+    face->setSpacing(4*3);
     face->setContentsMargins(0, 0, 0, 0);
 
     setLayout(face);

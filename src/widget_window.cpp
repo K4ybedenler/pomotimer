@@ -32,4 +32,3 @@ void WidgetWindow::updateButtonState(const QString &action) {
     buttons["smallStart"]->show();
     buttons["smallRestart"]->show();
 }
-

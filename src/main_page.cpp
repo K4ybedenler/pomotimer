@@ -4,28 +4,34 @@
 #include <clock_face.h>
 #include <circular_progress_bar.h>
 #include <timer.h>
+#include <QImageReader>
+#include <QPixmap>
 
 MainPage::~MainPage(){}
 
 MainPage::MainPage(Timer *timerInst)
     :TimerPage(timerInst)
 {
-    setFixedSize(500, 500);
+    setFixedSize(498, 447);
     setStyleSheet("background-color: #3c423d;");
 
-    progressBar = new CircularProgressBar(50, 50, 400, 400, this);
+    auto backgroundLabel = new QLabel(this);
+    backgroundLabel->setPixmap(QPixmap(":/device.png"));
+    backgroundLabel->setGeometry(0, 0, 498, 447);
+    backgroundLabel->setScaledContents(true);
+    backgroundLabel->show();
 
-    buttons["largeStart"] = new ActionButton(":/large_start.png", "start", 175, 230, 150, 60, this);
-    buttons["largeStart"]->show();
-    buttons["smallStart"]= new ActionButton(":/small_start.png", "start", 175, 230, 60, 60, this);
-    buttons["smallPause"] = new ActionButton(":/small_pause.png", "pause", 175, 230, 60, 60, this);
-    buttons["smallRestart"] = new ActionButton(":/small_restart.png", "restart", 265, 230, 60, 60, this);
-    buttons["openWidget"] = new ActionButton(":/digits/0", "open_widget", 400, 50, 11, 11, this);
-    buttons["openWidget"]->show();
 
-    time = new ClockFace(205, 295, 120, 44, timerInst->getElapsedSeconds()/60, timerInst->getElapsedSeconds()%60, this);
+//    progressBar = new CircularProgressBar(50, 50, 400, 400, this);
 
-    connect(this, &TimerPage::progressTime, this, &MainPage::updateProgressBar);
+    buttons["stop"] = new ActionButton(":/buttons/red", "stop", 15*3, 111*3, 21*3, 20*3, this);
+    buttons["start"] = new ActionButton(":/buttons/pomo", "start", 48*3, 111*3, 29*3, 20*3, this);
+    buttons["pause"] = new ActionButton(":/buttons/pause", "pause", 89*3, 111*3, 29*3, 20*3, this);
+    buttons["settings"] = new ActionButton(":/buttons/yellow", "settings", 130*3, 111*3, 21*3, 20*3, this);
+
+    time = new ClockFace(33*3,50*3, 97*3, 19*3, timerInst->getElapsedSeconds()/60, timerInst->getElapsedSeconds()%60, this);
+
+//    connect(this, &TimerPage::progressTime, this, &MainPage::updateProgressBar);
     establishButtonConnection(timerInst);
 }
 
@@ -35,20 +41,20 @@ void MainPage::updateProgressBar(Timer *timerInst)
 }
 
 void MainPage::updateButtonState(const QString &action) {
-    for(ActionButton *btn : buttons){
-        btn->hide();
-    }
-    if (action == "start") {
-        buttons["smallPause"]->show();
-        buttons["smallRestart"]->show();
-        buttons["openWidget"]->show();
-    } else if (action == "pause") {
-        buttons["smallRestart"]->show();
-        buttons["smallStart"]->show();
-        buttons["openWidget"]->show();
-    } else if (action == "restart") {
-        buttons["largeStart"]->show();
-        buttons["openWidget"]->show();
-    }
+//    for(ActionButton *btn : buttons){
+//        btn->hide();
+//    }
+//    if (action == "start") {
+//        buttons["smallPause"]->show();
+//        buttons["smallRestart"]->show();
+//        buttons["openWidget"]->show();
+//    } else if (action == "pause") {
+//        buttons["smallRestart"]->show();
+//        buttons["smallStart"]->show();
+//        buttons["openWidget"]->show();
+//    } else if (action == "restart") {
+//        buttons["largeStart"]->show();
+//        buttons["openWidget"]->show();
+//    }
 }
 
