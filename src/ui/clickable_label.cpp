@@ -8,4 +8,8 @@ void ClickableLabel::mousePressEvent(QMouseEvent *event) {
     emit ClickLabel();
 }
 
+void ClickableLabel::mouseReleaseEvent(QMouseEvent *event) {
+    emit ReleaseLabel();
+}
+
 ClickableLabel::~ClickableLabel(){}

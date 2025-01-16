@@ -13,9 +13,11 @@ public:
 
 signals:
     void ClickLabel();
+    void ReleaseLabel();
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
 };
 
 #endif
