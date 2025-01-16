@@ -19,25 +19,23 @@ void TimerPage::establishButtonConnection(Timer *timerInst)
 
     for(ActionButton *btn : buttons) {
         connect(btn, &ClickableLabel::ClickLabel, this, [this, btn, timerInst](){
-            handleButtonClick(timerInst, btn);
+            handleButtonClick(timerInst, btn->m_type);
             updateButtonState(btn->m_type);
         });
     }
 }
 
-//void TimerPage::handleButtonClick(Timer *timerInst, const QString &action) {
-void TimerPage::handleButtonClick(Timer *timerInst, ActionButton *btn) {
-    if(btn->m_type == "start") {
+void TimerPage::handleButtonClick(Timer *timerInst, const QString &action) {
+    if(action == "start") {
         timerInst->startTimer();
-//        btn->changeToPressed();
-    } else if(btn->m_type == "pause") {
+    } else if(action == "pause") {
         timerInst->pauseTimer();
-    } else if(btn->m_type == "restart") {
+    } else if(action == "restart") {
         timerInst->stopTimer();
         time->updateClockFace(0, 0);
-    } else if(btn->m_type == "open_widget"){
+    } else if(action == "open_widget"){
         emit switchRequest("widget_window");
-    } else if(btn->m_type == "open_main"){
+    } else if(action == "open_main"){
         emit switchRequest("main_page");
     }
 }

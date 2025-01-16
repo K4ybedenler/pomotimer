@@ -14,7 +14,7 @@ public:
     explicit Page();
     QMap<QString, ActionButton*> buttons;
 
-    virtual void handleButtonClick(Timer *timerInst, ActionButton *btn) = 0;
+    virtual void handleButtonClick(Timer *timerInst, const QString &action) = 0;
     virtual void updateButtonState(const QString &action) = 0;
 
 signals:

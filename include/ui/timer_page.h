@@ -17,7 +17,7 @@ public:
     void establishButtonConnection(Timer *timerInst);
 
 private slots:
-    void handleButtonClick(Timer *timerInst, ActionButton *btn) override;
+    void handleButtonClick(Timer *timerInst, const QString &action) override;
 
 signals:
     void progressTime(Timer *timerInst);
