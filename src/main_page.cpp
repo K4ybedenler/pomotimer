@@ -36,7 +36,6 @@ MainPage::MainPage(Timer *timerInst)
                          timerInst->getElapsedSeconds()/60,
                          timerInst->getElapsedSeconds()%60, this);
 
-//    progressBar = new CircularProgressBar(50, 50, 400, 400, this);
 //    connect(this, &TimerPage::progressTime, this, &MainPage::updateProgressBar);
     establishButtonConnection(timerInst);
     connect(timerInst, &Timer::started, this, [this](){
