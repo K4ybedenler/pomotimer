@@ -1,6 +1,10 @@
 <RCC>
     <qresource prefix="/">
         <file>device.png</file>
+        <file>q_start.png</file>
+        <file>started.png</file>
+        <file>stopped.png</file>
+        <file>paused.png</file>
     </qresource>
     <qresource prefix="/digits">
         <file alias="0">clock_face/0.png</file>

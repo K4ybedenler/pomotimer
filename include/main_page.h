@@ -19,11 +19,11 @@ public:
 
 private:
     CircularProgressBar *progressBar;
+    QLabel *textLabel;
+    void createTextLabel(const QString buttonName, int x, int w);
 
 private slots:
     void updateProgressBar(Timer *timerInst);
-    void updateButtonState(const QString &action) override;
-
 };
 
 #endif

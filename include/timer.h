@@ -81,6 +81,11 @@ private:
                              "round_number INTEGER, "
                              "round_time INTEGER);";
 
+signals:
+    void started();
+    void stopped();
+    void paused();
+
 };
 
 #endif

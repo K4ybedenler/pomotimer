@@ -24,11 +24,3 @@ WidgetWindow::WidgetWindow(Timer *timerInst)
     establishButtonConnection(timerInst);
 }
 
-void WidgetWindow::updateButtonState(const QString &action) {
-    for(ActionButton *btn : buttons){
-        btn->hide();
-    }
-    buttons["smallPause"]->show();
-    buttons["smallStart"]->show();
-    buttons["smallRestart"]->show();
-}

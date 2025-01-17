@@ -15,7 +15,6 @@ public:
     QMap<QString, ActionButton*> buttons;
 
     virtual void handleButtonClick(Timer *timerInst, const QString &action) = 0;
-    virtual void updateButtonState(const QString &action) = 0;
 
 signals:
     void switchRequest(const QString &page);

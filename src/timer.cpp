@@ -53,6 +53,7 @@ int Timer::getTotalSeconds(){
 
 void Timer::stopTimer(){
     timer->stop();
+    emit stopped();
     elapsedSeconds = 0;
 
     auto currentTime = std::chrono::steady_clock::now();
@@ -78,6 +79,7 @@ void Timer::stopTimer(){
 
 void Timer::startTimer(){
     timer->start(1000);
+    emit started();
     roundFinishTime = startTime = std::chrono::steady_clock::now();
     roundFinishTimeDB = startTimeDB = std::chrono::system_clock::now();
     bindStatement(stmtLaunches, 2, startTimeDB);
@@ -85,6 +87,7 @@ void Timer::startTimer(){
 }
 
 void Timer::pauseTimer(){
+    emit paused();
     timer->stop();
 }
 

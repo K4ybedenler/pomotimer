@@ -13,10 +13,6 @@ class WidgetWindow : public TimerPage
 
 public:
     WidgetWindow(Timer *timerInst);
-
-private slots:
-    void updateButtonState(const QString &action) override;
-
 };
 
 #endif

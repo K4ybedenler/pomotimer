@@ -20,7 +20,6 @@ void TimerPage::establishButtonConnection(Timer *timerInst)
     for(ActionButton *btn : buttons) {
         connect(btn, &ClickableLabel::ClickLabel, this, [this, btn, timerInst](){
             handleButtonClick(timerInst, btn->m_type);
-            updateButtonState(btn->m_type);
         });
     }
 }
@@ -30,7 +29,7 @@ void TimerPage::handleButtonClick(Timer *timerInst, const QString &action) {
         timerInst->startTimer();
     } else if(action == "pause") {
         timerInst->pauseTimer();
-    } else if(action == "restart") {
+    } else if(action == "stop") {
         timerInst->stopTimer();
         time->updateClockFace(0, 0);
     } else if(action == "open_widget"){
