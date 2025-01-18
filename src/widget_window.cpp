@@ -7,19 +7,28 @@
 WidgetWindow::WidgetWindow(Timer *timerInst)
     :TimerPage(timerInst)
 {
-    setFixedSize(106, 68);
+    setFixedSize(97*3, 46*3);
     setStyleSheet("background-color: #3c423d;");
 
-//    buttons["smallPause"] = new ActionButton(":/small_pause.png", "pause", 4, 34, 30, 30, this);
-//    buttons["smallPause"]->show();
-//    buttons["smallStart"]= new ActionButton(":/small_start.png", "start", 38, 34, 30, 30, this);
-//    buttons["smallStart"]->show();
-//    buttons["smallRestart"] = new ActionButton(":/small_restart.png", "restart", 72, 34, 30, 30, this);
-//    buttons["smallRestart"]->show();
-//    buttons["openMain"] = new ActionButton(":/digits/0", "open_main", 90, 10, 11, 11, this);
-//    buttons["openMain"]->show();
+    auto device = new QLabel(this);
+    device->setPixmap(QPixmap(":/widget_bg.png"));
+    device->setGeometry(0, 0, 97*3, 46*3);
+    device->setScaledContents(true);
+    device->show();
 
-    time = new ClockFace(23, 4, 60, 22, timerInst->getElapsedSeconds()/60, timerInst->getElapsedSeconds()%60, this);
+    buttons["stop"] = new ActionButton(":/buttons/red", ":/buttons/red_pressed",
+                                       "stop", 1, 25, 21, 20, this);
+    buttons["start"] = new ActionButton(":/buttons/pomo", ":/buttons/pomo_pressed",
+                                        "start", 34, 25, 29, 20, this);
+//    buttons["pause"] = new ActionButton(":/buttons/pause", ":/buttons/pause_pressed",
+//                                        "pause", 89, 111, 29, 20, this);
+    buttons["settings"] = new ActionButton(":/buttons/yellow", ":/buttons/yellow_pressed",
+                                           "settings", 75, 25, 21, 20, this);
+
+
+    time = new ClockFace(2*3,2*3, 93*3, 19*3,
+                         timerInst->getElapsedSeconds()/60,
+                         timerInst->getElapsedSeconds()%60, this);
 
     establishButtonConnection(timerInst);
 }

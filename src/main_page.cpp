@@ -12,12 +12,12 @@ MainPage::~MainPage(){}
 MainPage::MainPage(Timer *timerInst)
     :TimerPage(timerInst)
 {
-    setFixedSize(498, 447);
+    setFixedSize(166*3, 149*3);
     setStyleSheet("background-color: #3c423d;");
 
     auto device = new QLabel(this);
     device->setPixmap(QPixmap(":/device.png"));
-    device->setGeometry(0, 0, 498, 447);
+    device->setGeometry(0, 0, 166*3, 149*3);
     device->setScaledContents(true);
     device->show();
 
@@ -32,7 +32,7 @@ MainPage::MainPage(Timer *timerInst)
     buttons["settings"] = new ActionButton(":/buttons/yellow", ":/buttons/yellow_pressed",
                                            "settings", 130, 111, 21, 20, this);
 
-    time = new ClockFace(33*3,50*3, 97*3, 19*3,
+    time = new ClockFace(37*3,50*3, 93*3, 19*3,
                          timerInst->getElapsedSeconds()/60,
                          timerInst->getElapsedSeconds()%60, this);
 

@@ -5,6 +5,7 @@
         <file>started.png</file>
         <file>stopped.png</file>
         <file>paused.png</file>
+        <file>widget_bg.png</file>
     </qresource>
     <qresource prefix="/digits">
         <file alias="0">clock_face/0.png</file>

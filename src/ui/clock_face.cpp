@@ -13,6 +13,7 @@ ClockFace::ClockFace(int x, int y, int w, int h, int mins, int sex, QWidget *par
     for(int i = 0; i<5; i++) {
         digitsLabels[i] = new QLabel(this);
         digitsLabels[i]->setScaledContents(true);
+//        digitsLabels[i]->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         if(i==2){
             digitsLabels[i]->setFixedSize(9*3, 19*3);
         } else {
@@ -23,9 +24,14 @@ ClockFace::ClockFace(int x, int y, int w, int h, int mins, int sex, QWidget *par
     auto *face = new QHBoxLayout(this);
     for(int i = 0; i<5; i++) {
         face->addWidget(digitsLabels[i]);
+        if(i<4){
+            face->addSpacing(4*3);
+        }
     }
-    face->setSpacing(4*3);
+    face->setSpacing(0);
     face->setContentsMargins(0, 0, 0, 0);
+//    face->setAlignment(Qt::AlignCenter);
+
 
     setLayout(face);
     updateClockFace(mins, sex);
