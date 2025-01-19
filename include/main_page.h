@@ -15,6 +15,9 @@ class MainPage : public TimerPage
 public:
     explicit MainPage(Timer *timerInst);
     ~MainPage();
+    const char* name() const override {
+        return "main";
+    }
 
 
 private:
@@ -27,4 +30,3 @@ private slots:
 };
 
 #endif
-

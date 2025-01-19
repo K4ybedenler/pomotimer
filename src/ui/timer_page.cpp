@@ -26,6 +26,9 @@ void TimerPage::establishButtonConnection(Timer *timerInst)
 
 void TimerPage::handleButtonClick(Timer *timerInst, const QString &action) {
     if(action == "start") {
+        if(timerInst->getState() && strcmp(name(), "main") == 0) {
+            switchRequest("widget_window");
+        }
         timerInst->startTimer();
     } else if(action == "pause") {
         timerInst->pauseTimer();

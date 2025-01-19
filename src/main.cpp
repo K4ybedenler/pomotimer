@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     auto *timer = new Timer;
     auto *controller = new PageController(timer);
-    auto *widget = new WidgetWindow(timer);
+//    auto *widget = new WidgetWindow(timer);
 
     return a.exec();
 }

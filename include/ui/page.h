@@ -17,7 +17,7 @@ public:
     virtual void handleButtonClick(Timer *timerInst, const QString &action) = 0;
 
 signals:
-    void switchRequest(const QString &page);
+    void switchRequest(const QString &targetPage);
 };
 
 #endif

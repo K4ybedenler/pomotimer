@@ -23,10 +23,12 @@ public:
 
     int getElapsedSeconds();
     int getTotalSeconds();
+    bool getState() const { return m_started; };
 
     QTimer *getTimer();
 
 private:
+    bool m_started = false;
     QTimer *timer;
     double progress;
     int totalSeconds;

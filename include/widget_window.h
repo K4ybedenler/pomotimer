@@ -13,6 +13,9 @@ class WidgetWindow : public TimerPage
 
 public:
     WidgetWindow(Timer *timerInst);
+    const char* name() const override {
+        return "widget";
+    }
 };
 
 #endif
