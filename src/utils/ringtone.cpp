@@ -1,6 +1,7 @@
 #include "ringtone.h"
-#include "QMediaPlayer"
-#include "QAudioOutput"
+
+#include <QMediaPlayer>
+#include <QAudioOutput>
 #include <QLoggingCategory>
 #include <QTimer>
 

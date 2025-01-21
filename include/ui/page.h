@@ -1,11 +1,11 @@
-#ifndef PAGE_H
-#define PAGE_H
-
 #include <QWidget>
 #include <QMap>
 
 #include <action_button.h>
 #include <timer.h>
+
+#ifndef PAGE_H
+#define PAGE_H
 
 class Page : public QWidget
 {

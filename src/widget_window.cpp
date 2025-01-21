@@ -1,7 +1,8 @@
 #include "widget_window.h"
 #include "action_button.h"
-#include <clock_face.h>
+#include "clock_face.h"
 #include <timer.h>
+
 #include <QTimer>
 
 WidgetWindow::WidgetWindow(Timer *timerInst)

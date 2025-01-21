@@ -1,12 +1,12 @@
-#ifndef TIMER_PAGE_H
-#define TIMER_PAGE_H
-
-#include <action_button.h>
-#include <page.h>
-#include <clock_face.h>
+#include "action_button.h"
+#include "page.h"
+#include "clock_face.h"
 
 #include <QWidget>
 #include <QMap>
+
+#ifndef TIMER_PAGE_H
+#define TIMER_PAGE_H
 
 class TimerPage : public Page
 {

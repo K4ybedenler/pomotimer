@@ -1,12 +1,12 @@
+#include "main_page.h"
+#include "action_button.h"
+#include "clock_face.h"
+#include "circular_progress_bar.h"
+#include "timer.h"
+
 #include <QTimer>
-#include <main_page.h>
-#include <action_button.h>
-#include <clock_face.h>
-#include <circular_progress_bar.h>
-#include <timer.h>
 #include <QImageReader>
 #include <QPixmap>
-#include <ringtone.h>
 
 MainPage::~MainPage(){}
 

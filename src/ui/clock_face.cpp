@@ -1,7 +1,8 @@
-#include <clock_face.h>
+#include "clock_face.h"
+#include "circular_progress_bar.h"
+
 #include <QWidget>
 #include <QTimer>
-#include <circular_progress_bar.h>
 #include <QLabel>
 #include <QHBoxLayout>
 

@@ -1,8 +1,9 @@
 #include "page_controller.h"
+#include "widget_window.h"
+#include "main_page.h"
+#include "page.h"
+
 #include <QWidget>
-#include <widget_window.h>
-#include <main_page.h>
-#include <page.h>
 
 PageController::PageController(Timer *timerInst)
 {

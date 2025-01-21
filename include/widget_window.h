@@ -1,10 +1,11 @@
-#ifndef WIDGETWINDOW_H
-#define WIDGETWINDOW_H
+#include "action_button.h"
+#include "timer.h"
+#include "timer_page.h"
 
 #include <QWidget>
-#include <action_button.h>
-#include <timer.h>
-#include <timer_page.h>
+
+#ifndef WIDGETWINDOW_H
+#define WIDGETWINDOW_H
 
 class WidgetWindow : public TimerPage
 {

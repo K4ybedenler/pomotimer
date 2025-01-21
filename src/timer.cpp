@@ -1,8 +1,8 @@
-#include <timer.h>
+#include "timer.h"
+#include "ringtone.h"
+
 #include <QTimer>
 #include <sqlite3.h>
-
-#include "ringtone.h"
 
 Timer::Timer()
     :totalSeconds(1800), elapsedSeconds(0) {

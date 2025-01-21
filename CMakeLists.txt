@@ -21,6 +21,7 @@ qt_add_executable(pomotimer
     WIN32 MACOSX_BUNDLE
     resources/pomo.qrc
     src/utils/page_controller.cpp
+    src/utils/ringtone.cpp
     src/ui/clock_face.cpp
     src/ui/action_button.cpp
     src/ui/circular_progress_bar.cpp
@@ -28,10 +29,10 @@ qt_add_executable(pomotimer
     src/ui/timer_page.cpp
     src/ui/page.cpp
     src/main.cpp
+    src/device.cpp
     src/timer.cpp
     src/main_page.cpp
     src/widget_window.cpp
-    src/utils/ringtone.cpp
 
     include/utils/page_controller.h
     include/ui/clock_face.h
@@ -44,6 +45,7 @@ qt_add_executable(pomotimer
     include/widget_window.h
     include/timer.h
     include/utils/ringtone.h
+    include/device.h
 )
 
 target_link_libraries(pomotimer

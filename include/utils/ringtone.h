@@ -1,10 +1,10 @@
-#ifndef RINGTONE_H
-#define RINGTONE_H
-
 #include "timer.h"
 
 #include <QObject>
 #include <QMediaPlayer>
+
+#ifndef RINGTONE_H
+#define RINGTONE_H
 
 class Ringtone : public QObject
 {

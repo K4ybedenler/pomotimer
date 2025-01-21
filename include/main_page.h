@@ -1,9 +1,10 @@
 #include "timer_page.h"
+#include "action_button.h"
+#include "timer.h"
+#include "circular_progress_bar.h"
+#include "clock_face.h"
+
 #include <QWidget>
-#include <action_button.h>
-#include <timer.h>
-#include <circular_progress_bar.h>
-#include <clock_face.h>
 
 #ifndef MAIN_PAGE_H
 #define MAIN_PAGE_H

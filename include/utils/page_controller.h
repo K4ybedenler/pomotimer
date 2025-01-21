@@ -1,9 +1,9 @@
-#ifndef PAGE_CONTROLLER_H
-#define PAGE_CONTROLLER_H
-
 #include "page.h"
 
 #include <QObject>
+
+#ifndef PAGE_CONTROLLER_H
+#define PAGE_CONTROLLER_H
 
 class PageController : public QObject
 {
