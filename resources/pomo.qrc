@@ -21,7 +21,7 @@
         <file alias="4">clock_face/4.png</file>
     </qresource>
     <qresource prefix="/sound_effects">
-        <file>bone_shell.mp3</file>
+        <file>fixed.mp3</file>
     </qresource>
     <qresource prefix="/buttons">
         <file alias="yellow">buttons/yellow.png</file>
@@ -32,5 +32,7 @@
         <file alias="pause_pressed">buttons/pause_pressed.png</file>
         <file alias="red_pressed">buttons/red_pressed.png</file>
         <file alias="yellow_pressed">buttons/yellow_pressed.png</file>
+        <file alias="maximize">buttons/maximize.png</file>
+        <file alias="maximize_pressed">buttons/maximize_pressed.png</file>
     </qresource>
 </RCC>

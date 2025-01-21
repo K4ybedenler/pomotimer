@@ -25,11 +25,13 @@ public:
     int getTotalSeconds();
     bool getState() const { return m_started; };
 
-    QTimer *getTimer();
+    QTimer *getTimer() { return timer; };
+    QTimer *getRingTimer() { return timerRing; };
 
 private:
     bool m_started = false;
     QTimer *timer;
+    QTimer *timerRing;
     double progress;
     int totalSeconds;
     int elapsedSeconds;

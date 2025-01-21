@@ -31,6 +31,7 @@ qt_add_executable(pomotimer
     src/timer.cpp
     src/main_page.cpp
     src/widget_window.cpp
+    src/utils/ringtone.cpp
 
     include/utils/page_controller.h
     include/ui/clock_face.h
@@ -42,13 +43,14 @@ qt_add_executable(pomotimer
     include/main_page.h
     include/widget_window.h
     include/timer.h
+    include/utils/ringtone.h
 )
 
 target_link_libraries(pomotimer
         PRIVATE
+        Qt::Multimedia
         Qt::Core
         Qt::Widgets
-        Qt::Multimedia
         sqlite3
 )
 

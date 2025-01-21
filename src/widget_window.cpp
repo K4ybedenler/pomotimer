@@ -22,7 +22,7 @@ WidgetWindow::WidgetWindow(Timer *timerInst)
                                         "start", 34, 25, 29, 20, this);
 //    buttons["pause"] = new ActionButton(":/buttons/pause", ":/buttons/pause_pressed",
 //                                        "pause", 89, 111, 29, 20, this);
-    buttons["settings"] = new ActionButton(":/buttons/yellow", ":/buttons/yellow_pressed",
+    buttons["settings"] = new ActionButton(":/buttons/maximize", ":/buttons/maximize_pressed",
                                            "settings", 75, 25, 21, 20, this);
 
 

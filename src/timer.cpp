@@ -1,9 +1,8 @@
 #include <timer.h>
 #include <QTimer>
 #include <sqlite3.h>
-#include <QMediaPlayer>
-#include <QAudioOutput>
-#include <QMediaFormat>
+
+#include "ringtone.h"
 
 Timer::Timer()
     :totalSeconds(1800), elapsedSeconds(0) {
@@ -18,12 +17,6 @@ Timer::Timer()
     queryPrepare(insertLaunch, stmtLaunches);
     queryPrepare(insertRound, stmtRounds);
     queryPrepare(lastLaunchId, stmtLastId);
-
-//    QMediaPlayer *player = new QMediaPlayer;
-//    QAudioOutput *audioOutput = new QAudioOutput;
-//    player->setAudioOutput(audioOutput);
-//    player->setSource(QUrl("qrc:/sound_effects/bone_shell.mp3"));
-//    audioOutput->setVolume(100);
 }
 
 Timer::~Timer(){
@@ -53,6 +46,7 @@ int Timer::getTotalSeconds(){
 
 void Timer::stopTimer(){
     timer->stop();
+    timerRing->deleteLater();
     emit stopped();
     m_started = false;
     elapsedSeconds = 0;
@@ -80,6 +74,14 @@ void Timer::stopTimer(){
 
 void Timer::startTimer(){
     timer->start(1000);
+    if(!m_started){
+        timerRing = new QTimer(this);
+        timerRing->setSingleShot(true);
+        new Ringtone(timerRing);
+    }
+
+    int timeLeft = (totalSeconds-elapsedSeconds-60)*1000;
+    timerRing->start(timeLeft);
     emit started();
     m_started = true;
     roundFinishTime = startTime = std::chrono::steady_clock::now();
@@ -92,10 +94,7 @@ void Timer::pauseTimer(){
     emit paused();
     m_started = false;
     timer->stop();
-}
-
-QTimer *Timer::getTimer(){
-    return timer;
+    timerRing->stop();
 }
 
 void Timer::dbPrepare(const char *tableName)

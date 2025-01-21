@@ -3,7 +3,6 @@
 
 #include <QWidget>
 #include <action_button.h>
-#include <QSoundEffect>
 #include <timer.h>
 #include <timer_page.h>
 

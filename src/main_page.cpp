@@ -6,6 +6,7 @@
 #include <timer.h>
 #include <QImageReader>
 #include <QPixmap>
+#include <ringtone.h>
 
 MainPage::~MainPage(){}
 
@@ -36,8 +37,8 @@ MainPage::MainPage(Timer *timerInst)
                          timerInst->getElapsedSeconds()/60,
                          timerInst->getElapsedSeconds()%60, this);
 
-//    connect(this, &TimerPage::progressTime, this, &MainPage::updateProgressBar);
     establishButtonConnection(timerInst);
+
     connect(timerInst, &Timer::started, this, [this](){
         createTextLabel(":/started.png", 18, 131);
     });
