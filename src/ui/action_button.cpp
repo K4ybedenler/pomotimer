@@ -1,7 +1,7 @@
 #include "action_button.h"
 
 
-ActionButton::ActionButton(const QString &iconPath, const QString &pressIcon, const QString &btnType, int x, int y, int w, int h, QWidget *parent)
+    ActionButton::ActionButton(const QString &iconPath, const QString &pressIcon, const QString &btnType, int x, int y, int w, int h, QWidget *parent)
     : ClickableLabel(parent)
 {
     m_x = x;

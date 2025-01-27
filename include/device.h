@@ -1,20 +1,25 @@
 #include "action_button.h"
 #include "timer.h"
+#include "window.h"
+#include "state_manager.h"
+#include "page.h"
 
 #include <QWidget>
 
 #ifndef DEVICE_H
 #define DEVICE_H
 
-class Device : public QWidget
+class Device : public Window
 {
     Q_OBJECT
 public:
-    explicit Device(QWidget *parent = nullptr);
+    explicit Device(Timer *timerInst);
 
-    QMap<QString, ActionButton*> buttons;
+    const char* name() const override {
+        return "device";
+    }
 
-    virtual void handleButtonClick(Timer *timerInst, const QString &action) = 0;
+    Page *page;
 
 signals:
 };

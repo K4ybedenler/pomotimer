@@ -1,30 +1,27 @@
-#include "timer_page.h"
 #include "action_button.h"
 #include "timer.h"
 #include "circular_progress_bar.h"
 #include "clock_face.h"
+#include "page.h"
 
 #include <QWidget>
 
 #ifndef MAIN_PAGE_H
 #define MAIN_PAGE_H
 
-class MainPage : public TimerPage
+class MainPage : public Page
 {
     Q_OBJECT
 
 public:
-    explicit MainPage(Timer *timerInst);
+    explicit MainPage(Timer *timerInst, QWidget *parent);
     ~MainPage();
-    const char* name() const override {
-        return "main";
-    }
-
 
 private:
     CircularProgressBar *progressBar;
-    QLabel *textLabel;
+    QLabel *textLabel = nullptr;
     void createTextLabel(const QString buttonName, int x, int w);
+    ClockFace *time;
 
 private slots:
     void updateProgressBar(Timer *timerInst);

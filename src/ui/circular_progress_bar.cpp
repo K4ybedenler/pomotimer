@@ -11,7 +11,7 @@ CircularProgressBar::CircularProgressBar(int x, int y, int h, int w, QWidget *pa
 CircularProgressBar::~CircularProgressBar() {};
 
 void CircularProgressBar::updateProgress(Timer *timer) {
-    progress = 360.0 * timer->getElapsedSeconds() / timer->getTotalSeconds();
+//    progress = 360.0 * timer->getElapsedSeconds() / timer->getTotalSeconds();
     update();
 }
 

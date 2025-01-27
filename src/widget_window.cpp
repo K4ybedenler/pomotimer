@@ -6,7 +6,7 @@
 #include <QTimer>
 
 WidgetWindow::WidgetWindow(Timer *timerInst)
-    :TimerPage(timerInst)
+    :Window(timerInst)
 {
     setFixedSize(97*3, 46*3);
     setStyleSheet("background-color: #3c423d;");
@@ -27,9 +27,9 @@ WidgetWindow::WidgetWindow(Timer *timerInst)
                                            "settings", 75, 25, 21, 20, this);
 
 
-    time = new ClockFace(2*3,2*3, 93*3, 19*3,
-                         timerInst->getElapsedSeconds()/60,
-                         timerInst->getElapsedSeconds()%60, this);
+//    time = new ClockFace(2*3,2*3, 93*3, 19*3,
+//                         timerInst->getElapsedSeconds()/60,
+//                         timerInst->getElapsedSeconds()%60, this);
 
     establishButtonConnection(timerInst);
 }

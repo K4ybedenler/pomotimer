@@ -21,7 +21,7 @@ Timer::Timer()
 
 Timer::~Timer(){
     if(elapsedSeconds) {
-        stopTimer();
+        stop();
     }
     sqlite3_finalize(stmtLaunches);
     sqlite3_finalize(stmtRounds);
@@ -29,22 +29,32 @@ Timer::~Timer(){
     sqlite3_close(db);
 }
 
-void Timer::startCount(){
-    elapsedSeconds++;
-    if (elapsedSeconds > totalSeconds) {
-        elapsedSeconds = 0;
+void Timer::start(){
+    timer->start(1000);
+    if(!m_started){
+        connect(timer, &QTimer::timeout, this, [this](){
+            elapsedSeconds++;
+            emit left(elapsedSeconds);
+            if (elapsedSeconds > totalSeconds) {
+                elapsedSeconds = 0;
+            }
+        });
+        timerRing = new QTimer(this);
+        timerRing->setSingleShot(true);
+        new Ringtone(timerRing);
     }
+
+    int timeLeft = (totalSeconds-elapsedSeconds-60)*1000;
+    timerRing->start(timeLeft);
+    emit started();
+    m_started = true;
+    roundFinishTime = startTime = std::chrono::steady_clock::now();
+    roundFinishTimeDB = startTimeDB = std::chrono::system_clock::now();
+    bindStatement(stmtLaunches, 2, startTimeDB);
+    lastId = sqlite3_last_insert_rowid(db);
 }
 
-int Timer::getElapsedSeconds(){
-    return elapsedSeconds;
-}
-
-int Timer::getTotalSeconds(){
-    return totalSeconds;
-}
-
-void Timer::stopTimer(){
+void Timer::stop(){
     timer->stop();
     timerRing->deleteLater();
     emit stopped();
@@ -72,25 +82,7 @@ void Timer::stopTimer(){
     sqlite3_close(db);
 }
 
-void Timer::startTimer(){
-    timer->start(1000);
-    if(!m_started){
-        timerRing = new QTimer(this);
-        timerRing->setSingleShot(true);
-        new Ringtone(timerRing);
-    }
-
-    int timeLeft = (totalSeconds-elapsedSeconds-60)*1000;
-    timerRing->start(timeLeft);
-    emit started();
-    m_started = true;
-    roundFinishTime = startTime = std::chrono::steady_clock::now();
-    roundFinishTimeDB = startTimeDB = std::chrono::system_clock::now();
-    bindStatement(stmtLaunches, 2, startTimeDB);
-    lastId = sqlite3_last_insert_rowid(db);
-}
-
-void Timer::pauseTimer(){
+void Timer::pause(){
     emit paused();
     m_started = false;
     timer->stop();

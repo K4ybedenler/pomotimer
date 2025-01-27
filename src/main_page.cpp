@@ -1,7 +1,6 @@
 #include "main_page.h"
 #include "action_button.h"
 #include "clock_face.h"
-#include "circular_progress_bar.h"
 #include "timer.h"
 
 #include <QTimer>
@@ -10,34 +9,21 @@
 
 MainPage::~MainPage(){}
 
-MainPage::MainPage(Timer *timerInst)
-    :TimerPage(timerInst)
+MainPage::MainPage(Timer *timerInst, QWidget *parent)
+    :Page(timerInst, parent)
 {
-    setFixedSize(166*3, 149*3);
-    setStyleSheet("background-color: #3c423d;");
+    textLabel = new QLabel(this);
+    textLabel->setPixmap(QPixmap(":/q_start.png"));
+    textLabel->setGeometry(100*3, 24*3, 100*3, 19*3);
+    textLabel->setScaledContents(true);
+    textLabel->setStyleSheet("background: transparent;");
+    textLabel->show();
 
-    auto device = new QLabel(this);
-    device->setPixmap(QPixmap(":/device.png"));
-    device->setGeometry(0, 0, 166*3, 149*3);
-    device->setScaledContents(true);
-    device->show();
+    createTextLabel(":/q_start.png", 27, 112);    // something here do not know yet
 
-    createTextLabel(":/q_start.png", 27, 112);
-
-    buttons["stop"] = new ActionButton(":/buttons/red", ":/buttons/red_pressed",
-                                       "stop", 15, 111, 21, 20, this);
-    buttons["start"] = new ActionButton(":/buttons/pomo", ":/buttons/pomo_pressed",
-                                        "start", 48, 111, 29, 20, this);
-    buttons["pause"] = new ActionButton(":/buttons/pause", ":/buttons/pause_pressed",
-                                        "pause", 89, 111, 29, 20, this);
-    buttons["settings"] = new ActionButton(":/buttons/yellow", ":/buttons/yellow_pressed",
-                                           "settings", 130, 111, 21, 20, this);
-
-    time = new ClockFace(37*3,50*3, 93*3, 19*3,
-                         timerInst->getElapsedSeconds()/60,
-                         timerInst->getElapsedSeconds()%60, this);
-
-    establishButtonConnection(timerInst);
+//    time = new ClockFace(37*3,50*3, 93*3, 19*3,
+//                         timerInst->getElapsedSeconds()/60,
+//                         timerInst->getElapsedSeconds()%60, this);
 
     connect(timerInst, &Timer::started, this, [this](){
         createTextLabel(":/started.png", 18, 131);

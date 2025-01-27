@@ -17,32 +17,24 @@ public:
     explicit Timer();
     ~Timer();
 
-    void pauseTimer();
-    void startTimer();
-    void stopTimer();
-    void startCount();
-
-    int getElapsedSeconds();
-    int getTotalSeconds();
-    bool getState() const { return m_started; };
-
-    QTimer *getTimer() { return timer; };
-    QTimer *getRingTimer() { return timerRing; };
+public slots:
+    void start();
+    void stop();
+    void pause();
 
 private:
-    bool m_started = false;
     QTimer *timer;
     QTimer *timerRing;
-    double progress;
+    bool m_started = false;
     int totalSeconds;
     int elapsedSeconds;
+
+    double progress;    // can be deleted in future
+    void finishRound(); // can be deleted in future
 
     std::chrono::steady_clock::time_point startTime, roundFinishTime;
     std::chrono::system_clock::time_point startTimeDB, roundFinishTimeDB, finishTime;
 
-    void printDuration(long long int duration);
-    void updateTimer();
-    void finishRound();
     void dbPrepare(const char *table_name);
     void queryPrepare(const char *query_tmpl, sqlite3_stmt *&stmt);
     sqlite3 *db;
@@ -90,6 +82,8 @@ signals:
     void started();
     void stopped();
     void paused();
+
+    void left(int elapsedSeconds);
 
 };
 
