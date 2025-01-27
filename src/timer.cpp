@@ -5,7 +5,7 @@
 #include <sqlite3.h>
 
 Timer::Timer()
-    :totalSeconds(1800), elapsedSeconds(0) {
+    :totalSeconds(1800), secondsLeft(1800) {
     timer = new QTimer(this);
 
     if (sqlite3_open("pomobase.db", &db)) {
@@ -20,7 +20,7 @@ Timer::Timer()
 }
 
 Timer::~Timer(){
-    if(elapsedSeconds) {
+    if(totalSeconds) {
         stop();
     }
     sqlite3_finalize(stmtLaunches);
@@ -33,18 +33,19 @@ void Timer::start(){
     timer->start(1000);
     if(!m_started){
         connect(timer, &QTimer::timeout, this, [this](){
-            elapsedSeconds++;
-            emit left(elapsedSeconds);
-            if (elapsedSeconds > totalSeconds) {
-                elapsedSeconds = 0;
+            qDebug() << secondsLeft;
+            secondsLeft--;
+            if (secondsLeft<0) {
+                secondsLeft = totalSeconds;
             }
+            emit shot();
         });
         timerRing = new QTimer(this);
         timerRing->setSingleShot(true);
         new Ringtone(timerRing);
     }
 
-    int timeLeft = (totalSeconds-elapsedSeconds-60)*1000;
+    int timeLeft = (secondsLeft-60)*1000;
     timerRing->start(timeLeft);
     emit started();
     m_started = true;
@@ -59,7 +60,7 @@ void Timer::stop(){
     timerRing->deleteLater();
     emit stopped();
     m_started = false;
-    elapsedSeconds = 0;
+    secondsLeft = totalSeconds;
 
     auto currentTime = std::chrono::steady_clock::now();
     finishTime = std::chrono::system_clock::now();

@@ -1,3 +1,5 @@
+#include "timer.h"
+
 #include <QObject>
 #include <QWidget>
 #include <QLabel>
@@ -9,7 +11,7 @@ class ClockFace : public QLabel{
     Q_OBJECT
 
 public:
-    explicit ClockFace(int x, int y, int w, int h, int mins, int sex, QWidget *parent = nullptr);
+    explicit ClockFace(int x, int y, int w, int h, Timer *timer, QWidget *parent = nullptr);
     ~ClockFace();
     void updateClockFace(int mins, int sex);
 

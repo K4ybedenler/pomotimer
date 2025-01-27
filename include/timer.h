@@ -16,18 +16,26 @@ class Timer : public QObject
 public:
     explicit Timer();
     ~Timer();
+    int left() const { return secondsLeft; };
 
 public slots:
     void start();
     void stop();
     void pause();
 
+signals:
+    void started();
+    void stopped();
+    void paused();
+
+    void shot();
+
 private:
     QTimer *timer;
     QTimer *timerRing;
     bool m_started = false;
     int totalSeconds;
-    int elapsedSeconds;
+    int secondsLeft;
 
     double progress;    // can be deleted in future
     void finishRound(); // can be deleted in future
@@ -77,13 +85,6 @@ private:
                              "launch_id INTEGER, "
                              "round_number INTEGER, "
                              "round_time INTEGER);";
-
-signals:
-    void started();
-    void stopped();
-    void paused();
-
-    void left(int elapsedSeconds);
 
 };
 

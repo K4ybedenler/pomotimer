@@ -21,9 +21,7 @@ MainPage::MainPage(Timer *timerInst, QWidget *parent)
 
     createTextLabel(":/q_start.png", 27, 112);
 
-//    time = new ClockFace(37*3,50*3, 93*3, 19*3,
-//                         timerInst->getElapsedSeconds()/60,
-//                         timerInst->getElapsedSeconds()%60, this);
+    time = new ClockFace(37*3,50*3, 93*3, 19*3, timerInst, this);
 
     connect(timerInst, &Timer::started, this, [this](){
         createTextLabel(":/started.png", 18, 131);

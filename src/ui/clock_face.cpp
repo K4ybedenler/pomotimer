@@ -1,11 +1,12 @@
 #include "clock_face.h"
+#include "timer.h"
 
 #include <QWidget>
 #include <QTimer>
 #include <QLabel>
 #include <QHBoxLayout>
 
-ClockFace::ClockFace(int x, int y, int w, int h, int mins, int sex, QWidget *parent)
+ClockFace::ClockFace(int x, int y, int w, int h, Timer *timer, QWidget *parent)
     : QLabel(parent) {
     setGeometry(x, y, w, h);
     setStyleSheet("background: transparent;");
@@ -30,9 +31,13 @@ ClockFace::ClockFace(int x, int y, int w, int h, int mins, int sex, QWidget *par
     face->setSpacing(0);
     face->setContentsMargins(0, 0, 0, 0);
 
-
+    connect(timer, &Timer::shot, [this, timer](){
+        int left = timer->left();
+        int mins = left / 60;
+        int sex = left % 60;
+        updateClockFace(mins, sex);
+    });
     setLayout(face);
-    updateClockFace(mins, sex);
     show();
 }
 
