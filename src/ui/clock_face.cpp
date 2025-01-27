@@ -1,5 +1,4 @@
 #include "clock_face.h"
-#include "circular_progress_bar.h"
 
 #include <QWidget>
 #include <QTimer>

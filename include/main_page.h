@@ -1,6 +1,5 @@
 #include "action_button.h"
 #include "timer.h"
-#include "circular_progress_bar.h"
 #include "clock_face.h"
 #include "page.h"
 
@@ -18,13 +17,9 @@ public:
     ~MainPage();
 
 private:
-    CircularProgressBar *progressBar;
     QLabel *textLabel = nullptr;
     void createTextLabel(const QString buttonName, int x, int w);
     ClockFace *time;
-
-private slots:
-    void updateProgressBar(Timer *timerInst);
 };
 
 #endif

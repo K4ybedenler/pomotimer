@@ -23,12 +23,9 @@ include_directories(
 qt_add_executable(pomotimer
     WIN32 MACOSX_BUNDLE
     resources/pomo.qrc
-
     src/utils/ringtone.cpp
-
     src/ui/clock_face.cpp
     src/ui/action_button.cpp
-    src/ui/circular_progress_bar.cpp
     src/ui/clickable_label.cpp
     src/ui/window.cpp
     src/ui/page.cpp
@@ -39,10 +36,8 @@ qt_add_executable(pomotimer
     src/widget_window.cpp
 
     include/utils/state_manager.h
-
     include/ui/clock_face.h
     include/ui/action_button.h
-    include/ui/circular_progress_bar.h
     include/ui/clickable_label.h
     include/ui/window.h
     include/ui/page.h

@@ -19,7 +19,7 @@ MainPage::MainPage(Timer *timerInst, QWidget *parent)
     textLabel->setStyleSheet("background: transparent;");
     textLabel->show();
 
-    createTextLabel(":/q_start.png", 27, 112);    // something here do not know yet
+    createTextLabel(":/q_start.png", 27, 112);
 
 //    time = new ClockFace(37*3,50*3, 93*3, 19*3,
 //                         timerInst->getElapsedSeconds()/60,
@@ -39,11 +39,6 @@ MainPage::MainPage(Timer *timerInst, QWidget *parent)
     connect(timerInst, &Timer::paused, this, [this](){
         createTextLabel(":/paused.png", 27, 112);
     });
-}
-
-void MainPage::updateProgressBar(Timer *timerInst)
-{
-    progressBar->updateProgress(timerInst);
 }
 
 void MainPage::createTextLabel(const QString buttonName, int x, int w)
