@@ -31,8 +31,9 @@ signals:
     void shot();
 
 private:
-    QTimer *timer;
-    QTimer *timerRing;
+    QTimer *m_timer;
+    QTimer *timerRing = nullptr;
+    QMetaObject::Connection m_connection;
     bool m_started = false;
     int totalSeconds;
     int secondsLeft;

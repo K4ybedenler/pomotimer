@@ -31,12 +31,16 @@ ClockFace::ClockFace(int x, int y, int w, int h, Timer *timer, QWidget *parent)
     face->setSpacing(0);
     face->setContentsMargins(0, 0, 0, 0);
 
+    updateClockFace(timer->left()/60, timer->left()%60);
+
     connect(timer, &Timer::shot, [this, timer](){
-        int left = timer->left();
-        int mins = left / 60;
-        int sex = left % 60;
-        updateClockFace(mins, sex);
+        updateClockFace(timer->left()/60, timer->left()%60);
     });
+
+    connect(timer, &Timer::stopped, [this, timer](){
+        updateClockFace(timer->left()/60, timer->left()%60);
+    });
+
     setLayout(face);
     show();
 }

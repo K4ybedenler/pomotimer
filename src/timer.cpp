@@ -6,7 +6,7 @@
 
 Timer::Timer()
     :totalSeconds(1800), secondsLeft(1800) {
-    timer = new QTimer(this);
+    m_timer = new QTimer(this);
 
     if (sqlite3_open("pomobase.db", &db)) {
         qDebug() << "can't open the db: " << sqlite3_errmsg(db);
@@ -30,16 +30,29 @@ Timer::~Timer(){
 }
 
 void Timer::start(){
-    timer->start(1000);
+    m_timer->start(1000);
     if(!m_started){
-        connect(timer, &QTimer::timeout, this, [this](){
-            qDebug() << secondsLeft;
-            secondsLeft--;
-            if (secondsLeft<0) {
-                secondsLeft = totalSeconds;
+        m_connection = connect(
+            m_timer, &QTimer::timeout, this, [this](){
+                secondsLeft--;
+                if (secondsLeft<0) {
+                    secondsLeft = totalSeconds;
+                }
+                emit shot();
+            });
+
+        connect(this, &Timer::stopped,this, [this](){
+            if(m_connection != QMetaObject::Connection()){
+                disconnect(m_connection);
             }
-            emit shot();
         });
+
+        connect(this, &Timer::paused,this, [this](){
+            if(m_connection != QMetaObject::Connection()){
+                disconnect(m_connection);
+            }
+        });
+
         timerRing = new QTimer(this);
         timerRing->setSingleShot(true);
         new Ringtone(timerRing);
@@ -56,11 +69,13 @@ void Timer::start(){
 }
 
 void Timer::stop(){
-    timer->stop();
-    timerRing->deleteLater();
-    emit stopped();
+    m_timer->stop();
+    if(timerRing){
+        timerRing->deleteLater();
+    }
     m_started = false;
     secondsLeft = totalSeconds;
+    emit stopped();
 
     auto currentTime = std::chrono::steady_clock::now();
     finishTime = std::chrono::system_clock::now();
@@ -86,8 +101,10 @@ void Timer::stop(){
 void Timer::pause(){
     emit paused();
     m_started = false;
-    timer->stop();
-    timerRing->stop();
+    m_timer->stop();
+    if(timerRing){
+        timerRing->stop();
+    }
 }
 
 void Timer::dbPrepare(const char *tableName)
