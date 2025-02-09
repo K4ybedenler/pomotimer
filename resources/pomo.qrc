@@ -35,4 +35,9 @@
         <file alias="maximize">buttons/maximize.png</file>
         <file alias="maximize_pressed">buttons/maximize_pressed.png</file>
     </qresource>
+    <qresource prefix="/page_settings">
+        <file alias="header">settings/header_settings.png</file>
+        <file alias="timer">settings/timer_settings.png</file>
+        <file alias="arrow">settings/arrow.png</file>
+    </qresource>
 </RCC>

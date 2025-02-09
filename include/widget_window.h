@@ -1,6 +1,7 @@
 #include "action_button.h"
 #include "timer.h"
 #include "window.h"
+#include "clock_face.h"
 
 #include <QWidget>
 
@@ -16,6 +17,7 @@ public:
     const char* name() const override {
         return "widget";
     }
+    ClockFace *time;
 };
 
 #endif

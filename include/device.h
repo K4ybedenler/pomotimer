@@ -14,14 +14,15 @@ class Device : public Window
     Q_OBJECT
 public:
     explicit Device(Timer *timerInst);
+    ~Device();
 
     const char* name() const override {
         return "device";
     }
 
-    Page *page;
-
 signals:
+    void openSettings();
+
 };
 
 #endif

@@ -7,9 +7,10 @@ class ActionButton : public ClickableLabel {
     Q_OBJECT
 
 public:
-    explicit ActionButton(const QString &iconPath, const QString &pressIcon,
-                          const QString &btnType, int x, int y, int h, int w,
-                          QWidget *parent = nullptr);
+    explicit ActionButton(
+        int x, int y, int w, int h, const QString &btnType,
+        const QString &iconPath, const QString &pressIcon,
+        QWidget *parent = nullptr);
     ~ActionButton();
     void changeToPressed();
     void changeToDefault();
@@ -17,7 +18,6 @@ public:
     QString m_type;
 
 protected:
-//    void mouseReleaseEvent(QMouseEvent *event) override;
     QString m_pressed, m_released;
 
 private:

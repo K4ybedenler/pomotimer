@@ -33,11 +33,11 @@ ClockFace::ClockFace(int x, int y, int w, int h, Timer *timer, QWidget *parent)
 
     updateClockFace(timer->left()/60, timer->left()%60);
 
-    connect(timer, &Timer::shot, [this, timer](){
+    connect(timer, &Timer::shot, this, [this, timer](){
         updateClockFace(timer->left()/60, timer->left()%60);
     });
 
-    connect(timer, &Timer::stopped, [this, timer](){
+    connect(timer, &Timer::stopped, this, [this, timer](){
         updateClockFace(timer->left()/60, timer->left()%60);
     });
 

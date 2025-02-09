@@ -2,19 +2,20 @@
 #include "timer.h"
 #include "clock_face.h"
 #include "page.h"
+#include "window.h"
 
 #include <QWidget>
 
-#ifndef MAIN_PAGE_H
-#define MAIN_PAGE_H
+#ifndef PAGE_MAIN_H
+#define PAGE_MAIN_H
 
-class MainPage : public Page
+class PageMain : public Page
 {
     Q_OBJECT
 
 public:
-    explicit MainPage(Timer *timerInst, QWidget *parent);
-    ~MainPage();
+    explicit PageMain(Timer *timerInst, Window *parent);
+    ~PageMain();
 
 private:
     QLabel *textLabel = nullptr;

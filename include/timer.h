@@ -17,6 +17,7 @@ public:
     explicit Timer();
     ~Timer();
     int left() const { return secondsLeft; };
+    bool status() const { return m_started; };
 
 public slots:
     void start();
@@ -42,7 +43,8 @@ private:
     void finishRound(); // can be deleted in future
 
     std::chrono::steady_clock::time_point startTime, roundFinishTime;
-    std::chrono::system_clock::time_point startTimeDB, roundFinishTimeDB, finishTime;
+    std::chrono::system_clock::time_point startTimeDB,
+        roundFinishTimeDB, finishTime;
 
     void dbPrepare(const char *table_name);
     void queryPrepare(const char *query_tmpl, sqlite3_stmt *&stmt);

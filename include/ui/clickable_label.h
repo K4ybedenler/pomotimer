@@ -12,12 +12,15 @@ public:
     ~ClickableLabel();
 
 signals:
-    void ClickLabel();
+    void clicked();
+    void hovered();
+    void unhovered();
     void ReleaseLabel();
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
+    bool event(QEvent *event) override;
 };
 
 #endif

@@ -18,34 +18,53 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/include/ui
     ${CMAKE_SOURCE_DIR}/include/utils
+    ${CMAKE_SOURCE_DIR}/include/pages
 )
 
 qt_add_executable(pomotimer
     WIN32 MACOSX_BUNDLE
     resources/pomo.qrc
+    # utilities
     src/utils/ringtone.cpp
+    # pages
+    src/pages/page_settings.cpp
+    src/pages/page_settings_timer.cpp
+    src/pages/page_main.cpp
+    # ui components
     src/ui/clock_face.cpp
     src/ui/action_button.cpp
+    src/ui/menu_page.cpp
     src/ui/clickable_label.cpp
+    src/ui/active_element.cpp
     src/ui/window.cpp
     src/ui/page.cpp
+    # main files
     src/main.cpp
     src/device.cpp
     src/timer.cpp
-    src/main_page.cpp
     src/widget_window.cpp
 
+    ## headers:
+    # utilities
     include/utils/state_manager.h
+    include/utils/ringtone.h
+    # pages
+    include/pages/page_settings_timer.h
+    include/pages/page_settings.h
+    include/pages/page_main.h
+    # ui components
+    include/ui/menu_page.h
     include/ui/clock_face.h
     include/ui/action_button.h
     include/ui/clickable_label.h
+    include/ui/active_element.h
     include/ui/window.h
     include/ui/page.h
-    include/main_page.h
+    # main files
     include/widget_window.h
     include/timer.h
-    include/utils/ringtone.h
     include/device.h
+
 )
 
 target_link_libraries(pomotimer

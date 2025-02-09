@@ -15,7 +15,6 @@ public:
 
     QMap<QString, ActionButton*> buttons;
     explicit Window(Timer *timerInst);
-//    ClockFace *time;
     void establishButtonConnection(Timer *timerInst);
     virtual const char* name() const {
         return "base";
@@ -28,6 +27,10 @@ signals:
     void request();
     void switchRequest(Window *window);
     void progressTime(Timer *timerInst);
+
+    // page requests:
+    void settings();
+    void settings_timer();
 };
 
 #endif

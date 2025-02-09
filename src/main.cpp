@@ -1,9 +1,7 @@
 #include "timer.h"
 #include "state_manager.h"
 #include "device.h"
-
-#include "page.h"
-#include "main_page.h"
+#include "widget_window.h"
 
 #include <QApplication>
 
@@ -13,8 +11,7 @@ int main(int argc, char *argv[])
 
     auto *timer = new Timer;
 
-    Window *window = new Device(timer);
-    auto *manager = new StateManager<Window>(window, timer);
+    auto *manager = new StateManager<Window>(new Device(timer), timer);
 
     return a.exec();
 }

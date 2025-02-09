@@ -30,8 +30,8 @@ Timer::~Timer(){
 }
 
 void Timer::start(){
-    m_timer->start(1000);
     if(!m_started){
+        m_timer->start(1000);
         m_connection = connect(
             m_timer, &QTimer::timeout, this, [this](){
                 secondsLeft--;
@@ -69,41 +69,45 @@ void Timer::start(){
 }
 
 void Timer::stop(){
-    m_timer->stop();
-    if(timerRing){
-        timerRing->deleteLater();
-    }
-    m_started = false;
-    secondsLeft = totalSeconds;
-    emit stopped();
+    if(m_started) {
+        m_timer->stop();
+        if(timerRing){
+            timerRing->deleteLater();
+        }
+        m_started = false;
+        secondsLeft = totalSeconds;
+        emit stopped();
 
-    auto currentTime = std::chrono::steady_clock::now();
-    finishTime = std::chrono::system_clock::now();
-    auto timeSpan = std::chrono::duration_cast<std::chrono::milliseconds>(
-                         currentTime - startTime
-                         ).count();
-    auto timeSpanRnd = std::chrono::duration_cast<std::chrono::milliseconds>(
-                             currentTime - roundFinishTime
+        auto currentTime = std::chrono::steady_clock::now();
+        finishTime = std::chrono::system_clock::now();
+        auto timeSpan = std::chrono::duration_cast<std::chrono::milliseconds>(
+                             currentTime - startTime
                              ).count();
-    roundFinishTime = std::chrono::steady_clock::now();
-    bindStatement(stmtLaunches, 3, finishTime);
-    pushStatement(stmtLaunches);
-    if(sqlite3_step(stmtLastId) == SQLITE_ROW) {
-        lastId = sqlite3_column_int64(stmtLastId, 0);
+        auto timeSpanRnd = std::chrono::duration_cast<std::chrono::milliseconds>(
+                                 currentTime - roundFinishTime
+                                 ).count();
+        roundFinishTime = std::chrono::steady_clock::now();
+        bindStatement(stmtLaunches, 3, finishTime);
+        pushStatement(stmtLaunches);
+        if(sqlite3_step(stmtLastId) == SQLITE_ROW) {
+            lastId = sqlite3_column_int64(stmtLastId, 0);
+        }
+        bindStatement(stmtRounds, 2, lastId);
+        bindStatement(stmtRounds, 3, roundNumber);
+        bindStatement(stmtRounds, 4, timeSpanRnd);
+        pushStatement(stmtRounds);
+        sqlite3_close(db);
     }
-    bindStatement(stmtRounds, 2, lastId);
-    bindStatement(stmtRounds, 3, roundNumber);
-    bindStatement(stmtRounds, 4, timeSpanRnd);
-    pushStatement(stmtRounds);
-    sqlite3_close(db);
 }
 
 void Timer::pause(){
-    emit paused();
-    m_started = false;
-    m_timer->stop();
-    if(timerRing){
-        timerRing->stop();
+    if(m_started){
+        emit paused();
+        m_started = false;
+        m_timer->stop();
+        if(timerRing){
+            timerRing->stop();
+        }
     }
 }
 
@@ -120,15 +124,18 @@ void Timer::dbPrepare(const char *tableName)
 void Timer::queryPrepare(const char *queryTmpl, sqlite3_stmt *&stmt)
 {
     if (sqlite3_prepare_v2(db, queryTmpl, -1, &stmt, 0) != SQLITE_OK) {
-        qDebug() << "failed to prepare SQL statement(command): " << sqlite3_errmsg(db);
+        qDebug()
+            << "failed to prepare SQL statement(command): "
+            << sqlite3_errmsg(db);
     }
 }
 
-void Timer::bindStatement(sqlite3_stmt *stmt,
-                                int column_number,
-                                std::chrono::system_clock::time_point time_point)
+void Timer::bindStatement(
+    sqlite3_stmt *stmt, int column_number,
+    std::chrono::system_clock::time_point time_point)
 {
-    sqlite3_int64 sqliteTimePoint = std::chrono::duration_cast<std::chrono::milliseconds>(
+    sqlite3_int64 sqliteTimePoint =
+        std::chrono::duration_cast<std::chrono::milliseconds>(
                                         time_point.time_since_epoch()).count();
     sqlite3_bind_int64(stmt, column_number, sqliteTimePoint);
 }

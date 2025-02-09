@@ -1,8 +1,10 @@
 #include "page.h"
 
-Page::Page(Timer *timerInst, QWidget *parent)
+Page::Page(QWidget *parent)
     : QWidget(parent)
 {
-    show();
+    setGeometry(9*3, 17*3, 148*3, 59*3);
+
     setAttribute(Qt::WA_DeleteOnClose);
+    show();
 }

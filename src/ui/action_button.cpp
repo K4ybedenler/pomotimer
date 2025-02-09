@@ -1,7 +1,10 @@
 #include "action_button.h"
 
 
-    ActionButton::ActionButton(const QString &iconPath, const QString &pressIcon, const QString &btnType, int x, int y, int w, int h, QWidget *parent)
+ActionButton::ActionButton(
+    int x, int y, int w, int h, const QString &btnType,
+    const QString &iconPath, const QString &pressIcon,
+    QWidget *parent)
     : ClickableLabel(parent)
 {
     m_x = x;
@@ -20,8 +23,10 @@
     m_pressed = pressIcon;
     m_released = iconPath;
 
-    connect(this, &ActionButton::ClickLabel, this, &ActionButton::changeToPressed);
-    connect(this, &ActionButton::ReleaseLabel, this, &ActionButton::changeToDefault);
+    connect(this, &ActionButton::clicked,
+            this, &ActionButton::changeToPressed);
+    connect(this, &ActionButton::ReleaseLabel,
+            this, &ActionButton::changeToDefault);
 }
 
 void ActionButton::changeToPressed(){
