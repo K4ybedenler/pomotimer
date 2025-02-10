@@ -1,22 +1,17 @@
-#include "action_button.h"
+#include "interactable_element.h"
 #include "menu_page.h"
 
-MenuPage::~MenuPage(){
-    qDebug() << "MenuPage deleted";
-};
+MenuPage::~MenuPage(){};
 
-MenuPage::MenuPage(QWidget *parent)
-    : Page{parent}
+MenuPage::MenuPage(QWidget *device)
+    : Page{device}
 {
-    qDebug() << "MenuPage created";
-    m_arrow = createTextLabel(
-        2, 18, 3, 5, "arrow",
-        ":/page_settings/arrow", ":/page_settings/arrow");
+    m_arrow = createStaticLabel(2, 18, 3, 5, ":/page_settings/arrow");
 }
-ClickableLabel *MenuPage::createStaticLabel(
-    const QString pic, int x, int y, int w, int h)
+QLabel *MenuPage::createStaticLabel(
+    int x, int y, int w, int h, const QString pic)
 {
-    auto element = new ClickableLabel(this);
+    auto element = new QLabel(this);
 
     element->setPixmap(QPixmap(pic));
     element->setGeometry(x*3, y*3, w*3, h*3);
@@ -27,13 +22,12 @@ ClickableLabel *MenuPage::createStaticLabel(
     return element;
 }
 
-ActionButton *MenuPage::createTextLabel(
+InteractableElement *MenuPage::createIntLabel(
     int x, int y, int w, int h,
-    const QString &btnType, const QString &iconPath,
-    const QString &pressIcon, QWidget *parent)
+    const QString &btnType, const QString &iconPath)
 {
-    auto element = new ActionButton(
-        x, y, w, h, btnType, iconPath, pressIcon, this);
+    auto element = new InteractableElement(
+        x, y, w, h, btnType, iconPath, this);
 
     element->show();
 
@@ -41,16 +35,25 @@ ActionButton *MenuPage::createTextLabel(
 }
 
 void MenuPage::establishConnection(){
-    for(ActionButton *el : menu_elements){
+    for(InteractableElement *el : menu_elements){
         el->setCursor(Qt::PointingHandCursor);
         connect(el, &ClickableLabel::hovered, this, [this, el](){
             this->m_active_el=el;
             this->m_arrow->move(m_arrow->x(), arrowYCalc(el));
         });
+        connect(el, &ClickableLabel::clicked, this, [this, el](){
+                handleClick(el->m_type);
+            });
     }
 }
 
-int MenuPage::arrowYCalc(ActionButton *menu_el){
+void MenuPage::handleClick(const QString &action) {
+    if(action == "timer") {
+        emit settings_timer();
+    }
+}
+
+int MenuPage::arrowYCalc(InteractableElement *menu_el){
     int val = menu_el->y()+(1*3);
 
     return val;

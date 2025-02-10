@@ -13,25 +13,27 @@ class MenuPage : public Page
 public:
     explicit MenuPage(QWidget *parent = nullptr);
     ~MenuPage();
-    QVector<ActionButton*> menu_elements;
-    ActionButton *m_active_el = nullptr;
+    QVector<InteractableElement*> menu_elements;
+    InteractableElement *m_active_el = nullptr;
     void renderActiveArrow();
 
-    ActionButton *m_arrow = nullptr;
+    QLabel *m_arrow = nullptr;
     void establishConnection();
 
 protected:
-    ClickableLabel *createStaticLabel(
-        const QString pic, int x, int y, int w, int h);
+    QLabel *createStaticLabel(
+        int x, int y, int w, int h, const QString pic);
 
-    ActionButton *createTextLabel(
+    InteractableElement *createIntLabel(
         int x, int y, int w, int h,
-        const QString &btnType, const QString &iconPath,
-        const QString &pressIcon, QWidget *parent = nullptr);
+        const QString &btnType, const QString &iconPath);
 
-    int arrowYCalc(ActionButton *menu_el);
+    int arrowYCalc(InteractableElement *menu_el);
+    void handleClick(const QString &action);
 
 signals:
+    // page requests:
+    void settings_timer();
 };
 
 #endif

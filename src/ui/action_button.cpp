@@ -1,28 +1,12 @@
 #include "action_button.h"
 
-
 ActionButton::ActionButton(
     int x, int y, int w, int h, const QString &btnType,
     const QString &iconPath, const QString &pressIcon,
     QWidget *parent)
-    : ClickableLabel(parent)
+    : InteractableElement(x, y, w, h, btnType, iconPath, parent),
+    m_x(x), m_y(y), m_w(w), m_h(h), m_pressed(pressIcon), m_released(iconPath)
 {
-    m_x = x;
-    m_y = y;
-    m_w = w;
-    m_h = h;
-    setStyleSheet("background: transparent;");
-    setPixmap(QPixmap(iconPath));
-    setScaledContents(true);
-    setGeometry(m_x*3, m_y*3, m_w*3, m_h*3);
-    setAttribute(Qt::WA_Hover);
-    setCursor(Qt::PointingHandCursor);
-    m_type = btnType;
-    show();
-
-    m_pressed = pressIcon;
-    m_released = iconPath;
-
     connect(this, &ActionButton::clicked,
             this, &ActionButton::changeToPressed);
     connect(this, &ActionButton::ReleaseLabel,

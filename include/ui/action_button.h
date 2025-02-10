@@ -1,9 +1,9 @@
-#include "clickable_label.h"
+#include "interactable_element.h"
 
 #ifndef ACTION_BUTTON_H
 #define ACTION_BUTTON_H
 
-class ActionButton : public ClickableLabel {
+class ActionButton : public InteractableElement {
     Q_OBJECT
 
 public:
@@ -14,8 +14,6 @@ public:
     ~ActionButton();
     void changeToPressed();
     void changeToDefault();
-
-    QString m_type;
 
 protected:
     QString m_pressed, m_released;

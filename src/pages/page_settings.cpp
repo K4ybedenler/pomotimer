@@ -1,36 +1,33 @@
-#include "page_settings.h"
 #include "page_settings_timer.h"
+#include "page_settings.h"
 #include "device.h"
 
-PageSettings::~PageSettings(){
-    qDebug() << "destroyed";
-}
+PageSettings::~PageSettings(){qDebug() << "settings";}
+
 PageSettings::PageSettings(Window *device)
     : MenuPage{device}
 {
+    qDebug() << "settings";
     static_elements["header"] = createStaticLabel(
-        ":/page_settings/header", 21, 2, 107, 11);
+        21, 2, 107, 11, ":/page_settings/header");
 
-    menu_elements.append(createTextLabel(
-        7, 17, 22, 7, "timer",
-        ":/page_settings/timer", ":/page_settings/timer"));
+    menu_elements.append(createIntLabel(
+        7, 17, 22, 7, "timer", ":/page_settings/timer"));
 
-    menu_elements.append(createTextLabel(
-        7, 30, 22, 7, "timer",
-        ":/page_settings/timer", ":/page_settings/timer"));
+    menu_elements.append(createIntLabel(
+        7, 30, 22, 7, "timer", ":/page_settings/timer"));
 
-    menu_elements.append(createTextLabel(
-        7, 44, 22, 7, "timer",
-        ":/page_settings/timer", ":/page_settings/timer"));
+    menu_elements.append(createIntLabel(
+        7, 44, 22, 7, "timer", ":/page_settings/timer"));
 
     m_active_el = menu_elements[0];
 
-    qDebug() << "Size: " << sizeof(ActionButton) << "here";
-    qDebug() << "Size: " << sizeof(QWidget) << "here";
-    qDebug() << "Size: " << sizeof(Device) << "here";
+//    qDebug() << "Size: " << sizeof(ActionButton) << "here";
+//    qDebug() << "Size: " << sizeof(QWidget) << "here";
+//    qDebug() << "Size: " << sizeof(Device) << "here";
 
-    connect(device, &Window::settings_timer, this, [this](){
-        emit switchRequest(new pageSettingsTimer());
+    connect(this, &MenuPage::settings_timer, this, [this, device](){
+        emit switchRequest(new PageSettingsTimer(device));
     });
 
     establishConnection();

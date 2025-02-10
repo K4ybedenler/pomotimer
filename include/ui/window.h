@@ -30,7 +30,6 @@ signals:
 
     // page requests:
     void settings();
-    void settings_timer();
 };
 
 #endif
