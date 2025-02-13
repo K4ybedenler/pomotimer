@@ -31,11 +31,11 @@ qt_add_executable(pomotimer
     src/pages/page_settings_timer.cpp
     src/pages/page_main.cpp
     # ui components
+    src/ui/text_label.cpp
     src/ui/clock_face.cpp
     src/ui/action_button.cpp
     src/ui/menu_page.cpp
     src/ui/clickable_label.cpp
-    src/ui/interactable_element.cpp
     src/ui/window.cpp
     src/ui/page.cpp
     # main files
@@ -53,11 +53,11 @@ qt_add_executable(pomotimer
     include/pages/page_settings.h
     include/pages/page_main.h
     # ui components
+    include/ui/text_label.h
     include/ui/menu_page.h
     include/ui/clock_face.h
     include/ui/action_button.h
     include/ui/clickable_label.h
-    include/ui/interactable_element.h
     include/ui/window.h
     include/ui/page.h
     # main files

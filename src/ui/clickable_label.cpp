@@ -1,9 +1,16 @@
 #include <QMouseEvent>
 #include <clickable_label.h>
 
-ClickableLabel::ClickableLabel(QWidget *parent)
+ClickableLabel::ClickableLabel(const QString &type, QWidget *parent)
     : QLabel(parent){
+
+    setStyleSheet("background: transparent;");
+    m_type = type;
+    setScaledContents(true);
     setAttribute(Qt::WA_Hover, true);
+    setAttribute(Qt::WA_Hover);
+    setCursor(Qt::PointingHandCursor);
+    show();
 }
 
 bool ClickableLabel::event(QEvent *event){

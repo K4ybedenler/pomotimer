@@ -1,9 +1,9 @@
-#include "interactable_element.h"
+#include "clickable_label.h"
 
 #ifndef ACTION_BUTTON_H
 #define ACTION_BUTTON_H
 
-class ActionButton : public InteractableElement {
+class ActionButton : public ClickableLabel {
     Q_OBJECT
 
 public:

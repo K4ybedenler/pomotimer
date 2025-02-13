@@ -8,8 +8,9 @@ class ClickableLabel : public QLabel {
     Q_OBJECT
 
 public:
-    explicit ClickableLabel(QWidget *parent = nullptr);
+    explicit ClickableLabel(const QString &type, QWidget *parent = nullptr);
     ~ClickableLabel();
+    QString m_type;
 
 signals:
     void clicked();

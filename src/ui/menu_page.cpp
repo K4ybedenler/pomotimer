@@ -1,4 +1,4 @@
-#include "interactable_element.h"
+//#include "interactable_element.h"
 #include "menu_page.h"
 
 MenuPage::~MenuPage(){};
@@ -22,20 +22,8 @@ QLabel *MenuPage::createStaticLabel(
     return element;
 }
 
-InteractableElement *MenuPage::createIntLabel(
-    int x, int y, int w, int h,
-    const QString &btnType, const QString &iconPath)
-{
-    auto element = new InteractableElement(
-        x, y, w, h, btnType, iconPath, this);
-
-    element->show();
-
-    return element;
-}
-
 void MenuPage::establishConnection(){
-    for(InteractableElement *el : menu_elements){
+    for(ClickableLabel *el : menu_elements){
         el->setCursor(Qt::PointingHandCursor);
         connect(el, &ClickableLabel::hovered, this, [this, el](){
             this->m_active_el=el;
@@ -53,7 +41,7 @@ void MenuPage::handleClick(const QString &action) {
     }
 }
 
-int MenuPage::arrowYCalc(InteractableElement *menu_el){
+int MenuPage::arrowYCalc(ClickableLabel *menu_el){
     int val = menu_el->y()+(1*3);
 
     return val;

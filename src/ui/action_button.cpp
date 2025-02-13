@@ -4,9 +4,12 @@ ActionButton::ActionButton(
     int x, int y, int w, int h, const QString &btnType,
     const QString &iconPath, const QString &pressIcon,
     QWidget *parent)
-    : InteractableElement(x, y, w, h, btnType, iconPath, parent),
+    : ClickableLabel(btnType, parent),
     m_x(x), m_y(y), m_w(w), m_h(h), m_pressed(pressIcon), m_released(iconPath)
 {
+    setPixmap(QPixmap(iconPath));
+    setGeometry(x*3, y*3, w*3, h*3);
+
     connect(this, &ActionButton::clicked,
             this, &ActionButton::changeToPressed);
     connect(this, &ActionButton::ReleaseLabel,
