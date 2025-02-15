@@ -20,6 +20,9 @@ public:
         return "base";
     };
 
+protected:
+    void keyPressEvent(QKeyEvent *event) override;
+
 signals:
     void start();
     void stop();

@@ -39,6 +39,8 @@
         <file alias="header">settings/header_settings.png</file>
         <file alias="timer">settings/timer_settings.png</file>
         <file alias="arrow">settings/arrow.png</file>
+        <file alias="scale">settings/scale.png</file>
+        <file alias="square">settings/square.png</file>
     </qresource>
     <qresource prefix="/alphabet">
         <file alias="z">alphabet/z.png</file>
@@ -93,5 +95,15 @@
         <file alias="C">alphabet/C.png</file>
         <file alias="B">alphabet/B.png</file>
         <file alias="A">alphabet/A.png</file>
+        <file alias="8">alphabet/8.png</file>
+        <file alias="4">alphabet/4.png</file>
+        <file alias="6">alphabet/6.png</file>
+        <file alias="2">alphabet/2.png</file>
+        <file alias="9">alphabet/9.png</file>
+        <file alias="3">alphabet/3.png</file>
+        <file alias="1">alphabet/1.png</file>
+        <file alias="7">alphabet/7.png</file>
+        <file alias="5">alphabet/5.png</file>
+        <file alias="0">alphabet/0.png</file>
     </qresource>
 </RCC>

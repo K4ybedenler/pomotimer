@@ -1,4 +1,5 @@
 #include "page.h"
+#include "text_label.h"
 #include "clickable_label.h"
 #include "action_button.h"
 
@@ -13,11 +14,11 @@ class MenuPage : public Page
 public:
     explicit MenuPage(QWidget *parent = nullptr);
     ~MenuPage();
-    QVector<ClickableLabel*> menu_elements;
-    ClickableLabel *m_active_el = nullptr;
+    QVector<TextLabel*> menu_elements;
+    TextLabel *m_active_el = nullptr;
     void renderActiveArrow();
 
-    QLabel *m_arrow = nullptr;
+    QLabel *m_square = nullptr;
     void establishConnection();
 
 protected:
@@ -28,12 +29,14 @@ protected:
         int x, int y, int w, int h,
         const QString &btnType, const QString &iconPath);
 
-    int arrowYCalc(ClickableLabel *menu_el);
+    int arrowYCalc(TextLabel *menu_el);
     void handleClick(const QString &action);
 
 signals:
     // page requests:
     void settings_timer();
+    void activated(TextLabel *el);
+    void deactivated(TextLabel *el);
 };
 
 #endif

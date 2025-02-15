@@ -26,11 +26,14 @@ class TextLabel : public ClickableLabel
     Q_OBJECT
 public:
     explicit TextLabel(
-        int x, int y, int w, int h, const QString sentence,
+        int y, const QString sentence,
         const QString type, QWidget *parent = nullptr);
+    void changeColor(QColor fromColor, QColor toColor);
 
 private:
     LetterCache m_cache;
+    QList<QLabel*> m_labels;
+
 signals:
 };
 

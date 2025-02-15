@@ -8,12 +8,10 @@ PageSettings::~PageSettings(){}
 PageSettings::PageSettings(Window *device)
     : MenuPage{device}
 {
-    static_elements["header"] = createStaticLabel(
-        21, 2, 107, 11, ":/page_settings/header");
-
-    menu_elements.append(new TextLabel(7, 17, 4, 9, "timer", "timer", this));
-
-    menu_elements.append(new TextLabel(7, 30, 4, 9, "LSD", "some", this));
+    menu_elements.append(new TextLabel(2, "timer", "timer", this));
+    menu_elements.append(new TextLabel(16,"pause", "some", this));
+    menu_elements.append(new TextLabel(30, "round", "some", this));
+    menu_elements.append(new TextLabel(44, "0123456789", "some", this));
 
     m_active_el = menu_elements[0];
 
