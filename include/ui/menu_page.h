@@ -2,8 +2,11 @@
 #include "text_label.h"
 #include "clickable_label.h"
 #include "action_button.h"
+#include "window.h"
 
 #include <QWidget>
+
+#include <deque>
 
 #ifndef MENU_PAGE_H
 #define MENU_PAGE_H
@@ -12,9 +15,9 @@ class MenuPage : public Page
 {
     Q_OBJECT
 public:
-    explicit MenuPage(QWidget *parent = nullptr);
+    explicit MenuPage(Window *parent = nullptr);
     ~MenuPage();
-    QVector<TextLabel*> menu_elements;
+    std::deque<TextLabel *> menu_elements;
     TextLabel *m_active_el = nullptr;
     void renderActiveArrow();
 
@@ -23,7 +26,7 @@ public:
 
 protected:
     QLabel *createStaticLabel(
-        int x, int y, int w, int h, const QString pic);
+        int x, int y, int w, int h, const QString &pic);
 
     ClickableLabel *createIntLabel(
         int x, int y, int w, int h,
@@ -31,10 +34,13 @@ protected:
 
     int arrowYCalc(TextLabel *menu_el);
     void handleClick(const QString &action);
+    void align();
+    void nextEl(const QString &dir);
 
 signals:
     // page requests:
     void settings_timer();
+    void switchPage(Page *page);
     void activated(TextLabel *el);
     void deactivated(TextLabel *el);
 };

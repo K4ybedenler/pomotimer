@@ -45,7 +45,11 @@ void Window::handleButtonClick(Timer *timerInst, const QString &action) {
 
 void Window::keyPressEvent(QKeyEvent *event){
     if (event->key() == Qt::Key_Escape){
-        qDebug() << "i fucking did that";
+        emit escape();
+    } else if (event->key() == Qt::Key_Up){
+        emit up();
+    } else if (event->key() == Qt::Key_Down){
+        emit down();
     }
     qDebug() << event->key() << event->text();
 }

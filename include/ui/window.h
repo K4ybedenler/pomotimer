@@ -33,6 +33,11 @@ signals:
 
     // page requests:
     void settings();
+
+    // buttons:
+    void escape();
+    void up();
+    void down();
 };
 
 #endif

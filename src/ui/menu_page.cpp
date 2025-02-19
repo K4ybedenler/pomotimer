@@ -1,15 +1,29 @@
 #include "text_label.h"
 #include "menu_page.h"
+#include "window.h"
+#include "page_settings_timer.h"
+
+#include <iterator>
 
 MenuPage::~MenuPage(){};
 
-MenuPage::MenuPage(QWidget *device)
+MenuPage::MenuPage(Window *device)
     : Page{device}
 {
-//    m_square = createStaticLabel(4, 14, 141, 11, ":/page_settings/square");
+    connect(device, &Window::up, this, [this](){
+        nextEl("up");
+    });
+    connect(device, &Window::down, this, [this](){
+        nextEl("down");
+    });
+
+    connect(this, &MenuPage::switchPage, this, [this, device](Page *page){
+        emit switchRequest(page);
+    });
 }
+
 QLabel *MenuPage::createStaticLabel(
-    int x, int y, int w, int h, const QString pic)
+    int x, int y, int w, int h, const QString &pic)
 {
     auto element = new QLabel(this);
 
@@ -49,10 +63,47 @@ void MenuPage::establishConnection(){
     }
 
     emit activated(m_active_el);
+    align();
+}
+
+void MenuPage::align(){
+    for(int i(0), p(2); i<4; i++, p+=14) {
+        if(i < menu_elements.size()) {
+            menu_elements[i]->move(2*3, p*3);
+        }
+    }
 }
 
 void MenuPage::handleClick(const QString &action) {
     if(action == "timer") {
-        emit settings_timer();
+        emit switchRequest(
+            new PageSettingsTimer(qobject_cast<Window*>(this->parent())));
     }
+}
+
+void MenuPage::nextEl(const QString &dir){
+    auto it = std::find(menu_elements.begin(), menu_elements.end(), m_active_el);
+    auto prev = m_active_el;
+
+    if (it == menu_elements.end()) {
+        return;
+    }
+
+    int index = std::distance(menu_elements.begin(), it);
+
+    if (dir == "up") {
+        if (index == 0) {
+            m_active_el = menu_elements.back();
+        } else {
+            m_active_el = menu_elements[index - 1];
+        }
+    } else if (dir == "down") {
+        if (index == menu_elements.size() -1) {
+            m_active_el = menu_elements.front();
+        } else {
+            m_active_el = menu_elements[index + 1];
+        }
+    }
+    emit deactivated(prev);
+    emit activated(m_active_el);
 }

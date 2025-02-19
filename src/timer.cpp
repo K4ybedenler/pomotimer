@@ -1,11 +1,21 @@
 #include "timer.h"
 #include "ringtone.h"
+#include "settings.h"
 
 #include <QTimer>
 #include <sqlite3.h>
 
 Timer::Timer()
-    :totalSeconds(1800), secondsLeft(1800) {
+//    :totalSeconds(1800), secondsLeft(1800)
+{
+    if(!settings.contains("timer_time")){
+        settings.setValue("timer_time", 1800);
+        settings.setValue("pause_time", 300);
+    }
+
+    settings.setValue("timer_time", 900);
+    totalSeconds = secondsLeft = settings.value("timer_time").toInt();
+
     m_timer = new QTimer(this);
 
     if (sqlite3_open("pomobase.db", &db)) {

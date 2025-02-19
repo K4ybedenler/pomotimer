@@ -3,12 +3,10 @@
 #include <QHBoxLayout>
 #include <QLabel>
 
-TextLabel::TextLabel(
-    int y, const QString sentence, const QString type, QWidget *parent)
+TextLabel::TextLabel(const QString sentence, const QString type, QWidget *parent)
     : ClickableLabel{type, parent}, m_cache()
 {
-//    menu_elements.append(new TextLabel(2, 2, 141, 12, "timer", "timer", this));
-    setGeometry(2*3, y*3, 141*3, 12*3);
+    setFixedSize(141*3, 12*3);
     auto container = new QWidget(this);
     auto layout = new QHBoxLayout(container);
     int totalWidth = 0;
@@ -51,11 +49,9 @@ void TextLabel::changeColor(QColor fromColor, QColor toColor){
                         img.setPixelColor(x, y, toColor);
                     }
                 }
-
             }
             lb->setPixmap(QPixmap::fromImage(img));
         }
-
     }
 }
 

@@ -105,5 +105,13 @@
         <file alias="7">alphabet/7.png</file>
         <file alias="5">alphabet/5.png</file>
         <file alias="0">alphabet/0.png</file>
+        <file alias="question_mark">alphabet/question_mark.png</file>
+        <file alias="space">alphabet/space.png</file>
+        <file alias="semicolon">alphabet/semicolon.png</file>
+        <file alias="exclamation_mark">alphabet/exclamation_mark.png</file>
+        <file alias="colon">alphabet/colon.png</file>
+        <file alias="coma">alphabet/coma.png</file>
+        <file alias="dot">alphabet/dot.png</file>
+        <file alias="underline">alphabet/underline.png</file>
     </qresource>
 </RCC>

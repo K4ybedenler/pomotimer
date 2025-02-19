@@ -17,8 +17,6 @@ public:
     ~PageSettings();
     QLabel *textLabel;
 
-    void toTimerSettings();
-
 signals:
 };
 

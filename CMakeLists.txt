@@ -64,6 +64,8 @@ qt_add_executable(pomotimer
     include/widget_window.h
     include/timer.h
     include/device.h
+    include/utils/settings.h
+    src/utils/settings.cpp
 
 )
 
