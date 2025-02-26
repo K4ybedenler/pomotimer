@@ -50,11 +50,18 @@ void MenuPage::establishConnection(){
         connect(this, &MenuPage::activated, this, [](TextLabel *el){
             el->setPixmap(QPixmap(":/page_settings/square"));
             el->changeColor(QColor("#000000"), QColor("#B4B1C2"));
+//            if(el->m_type == "input"){
+//                el->updateInput();
+//            }
         });
 
         connect(this, &MenuPage::deactivated, this, [](TextLabel *el){
             el->clear();
+//            qDebug() << "deactivated";
             el->changeColor(QColor("#B4B1C2"), QColor("#000000"));
+            if(el->m_type == "input"){
+//                el->updateInput();
+            }
         });
 
         connect(el, &ClickableLabel::clicked, this, [this, el](){

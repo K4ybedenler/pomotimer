@@ -25,47 +25,49 @@ qt_add_executable(pomotimer
     WIN32 MACOSX_BUNDLE
     resources/pomo.qrc
     # utilities
+    src/utils/settings.cpp
     src/utils/ringtone.cpp
     # pages
-    src/pages/page_settings.cpp
     src/pages/page_settings_timer.cpp
+    src/pages/page_settings.cpp
     src/pages/page_main.cpp
     # ui components
-    src/ui/text_label.cpp
-    src/ui/clock_face.cpp
-    src/ui/action_button.cpp
-    src/ui/menu_page.cpp
     src/ui/clickable_label.cpp
+    src/ui/action_button.cpp
+    src/ui/clock_face.cpp
+    src/ui/text_label.cpp
+    src/ui/menu_page.cpp
     src/ui/window.cpp
+    src/ui/input.cpp
     src/ui/page.cpp
     # main files
-    src/main.cpp
+    src/widget_window.cpp
     src/device.cpp
     src/timer.cpp
-    src/widget_window.cpp
+    src/main.cpp
 
     ## headers:
     # utilities
     include/utils/state_manager.h
     include/utils/ringtone.h
+    include/utils/settings.h
     # pages
     include/pages/page_settings_timer.h
     include/pages/page_settings.h
     include/pages/page_main.h
     # ui components
+    include/ui/clickable_label.h
+    include/ui/action_button.h
+    include/ui/clock_face.h
     include/ui/text_label.h
     include/ui/menu_page.h
-    include/ui/clock_face.h
-    include/ui/action_button.h
-    include/ui/clickable_label.h
     include/ui/window.h
+    include/ui/input.h
     include/ui/page.h
     # main files
     include/widget_window.h
-    include/timer.h
     include/device.h
-    include/utils/settings.h
-    src/utils/settings.cpp
+    include/timer.h
 
 )
 

@@ -6,7 +6,6 @@
 #include <sqlite3.h>
 
 Timer::Timer()
-//    :totalSeconds(1800), secondsLeft(1800)
 {
     if(!settings.contains("timer_time")){
         settings.setValue("timer_time", 1800);

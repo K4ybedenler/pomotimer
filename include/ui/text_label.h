@@ -5,6 +5,9 @@
 #ifndef ALPHABET_H
 #define ALPHABET_H
 
+class MenuPage;
+class Input;
+
 class LetterCache {
 public:
     QPixmap getLetter(const QString letter){
@@ -32,6 +35,11 @@ public:
         return m_cache[letter];
     }
 
+    void lettersOut(){
+        for(const QString &l : m_cache.keys()){
+            qDebug() << l;
+        }
+    };
 private:
     QMap<QString, QPixmap> m_cache;
 
@@ -44,12 +52,24 @@ class TextLabel : public ClickableLabel
 public:
     explicit TextLabel(
         const QString sentence,
-        const QString type, QWidget *parent = nullptr);
+        const QString type, MenuPage *parent = nullptr);
+
     void changeColor(QColor fromColor, QColor toColor);
+    void updateLetter(int index, const QString &newLetter);
+    void updateInput();
+    void output(){
+        qDebug() << "rly?";
+        m_cache.lettersOut();
+//        QList<QString> ltr = m_cache.lettersOut();
+//        for (const QString &let : ltr) {
+//            qDebug() << let;
+//        }
+    }
 
 private:
     LetterCache m_cache;
     QList<QLabel*> m_labels;
+    Input *m_input=nullptr;
 
 signals:
 };

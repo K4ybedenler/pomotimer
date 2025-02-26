@@ -1,9 +1,11 @@
 #include "text_label.h"
+#include "input.h"
 
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QLineEdit>
 
-TextLabel::TextLabel(const QString sentence, const QString type, QWidget *parent)
+TextLabel::TextLabel(const QString sentence, const QString type, MenuPage *parent)
     : ClickableLabel{type, parent}, m_cache()
 {
     setFixedSize(141*3, 12*3);
@@ -19,7 +21,6 @@ TextLabel::TextLabel(const QString sentence, const QString type, QWidget *parent
         int width = m_cache.getLetter(letter).width()/10*3;
         label->setFixedSize(
             width, m_cache.getLetter(letter).height()/10*3);
-        layout->setAlignment(Qt::AlignTop);
         totalWidth += width+3;
         layout->addWidget(label);
 
@@ -32,8 +33,17 @@ TextLabel::TextLabel(const QString sentence, const QString type, QWidget *parent
         m_labels.append(label);
     }
 
+    if (type == "input"){
+        m_input = new Input(parent, this);
+//        qDebug() << this->metaObject()->className();
+//        qDebug() << this->parent()->metaObject()->className();
+        m_input->setFixedSize(150*3, 9*3);
+        layout->addWidget(m_input);
+        totalWidth+=150*3;
+    }
+
     container->move(4*3, 2*3);
-    container->setFixedSize(totalWidth, 12*3);
+    container->setFixedSize(totalWidth, 9*3);
     container->show();
     show();
 }
@@ -55,3 +65,7 @@ void TextLabel::changeColor(QColor fromColor, QColor toColor){
     }
 }
 
+void TextLabel::updateInput() {
+//    qDebug() << "triggered";
+    m_input->update();
+}

@@ -51,5 +51,5 @@ void Window::keyPressEvent(QKeyEvent *event){
     } else if (event->key() == Qt::Key_Down){
         emit down();
     }
-    qDebug() << event->key() << event->text();
+//    qDebug() << event->key() << event->text();
 }

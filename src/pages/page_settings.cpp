@@ -9,6 +9,7 @@ PageSettings::PageSettings(Window *device)
     : MenuPage{device}
 {
     menu_elements.push_back(new TextLabel("timer", "timer", this));
+//    qDebug() << "Current class:" << this->parent()->metaObject()->className();
 //    menu_elements.push_back(new TextLabel("pause", "some", this));
 //    menu_elements.push_back(new TextLabel("round", "some", this));
 //    menu_elements.push_back(new TextLabel("0123456789", "some", this));
@@ -17,6 +18,4 @@ PageSettings::PageSettings(Window *device)
 
     establishConnection();
 }
-
-
 
