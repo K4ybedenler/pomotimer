@@ -23,31 +23,25 @@ void Input::changeColor(QColor fromColor, QColor toColor) {
 
     int x = 1*3;
     for (const QString &letter : m_text) {
-        if(!(m_page->m_active_el == m_parent)) {
-            QPixmap pixmap = m_cache.getLetter(letter);
-            if (!pixmap.isNull()) {
-                int width = pixmap.width()/10*3;
-                int height = pixmap.height()/10*3;
-                painter.drawPixmap(x, 0, pixmap.scaled(width, height));
-                x += (width+1*3);
-            }
-        } else if (m_page->m_active_el == m_parent){
-            QPixmap pixmap = m_cache.getLetter(letter);
-            QImage img = pixmap.toImage();
-            if (!pixmap.isNull()) {
+        QPixmap pixmap = m_cache.getLetter(letter);
+        if (!pixmap.isNull()) {
+
+            if (m_page->m_active_el == m_parent){
+                QImage img = pixmap.toImage();
                 for (int y = 0; y < img.height(); ++y) {
                     for (int x = 0; x < img.width(); ++x) {
                         if (img.pixelColor(x, y) == fromColor) {
                             img.setPixelColor(x, y, toColor);
                         }
                     }
+                    pixmap = QPixmap::fromImage(img);
                 }
-                pixmap = QPixmap::fromImage(img);
-                int width = pixmap.width()/10*3;
-                int height = pixmap.height()/10*3;
-                painter.drawPixmap(x, 0, pixmap.scaled(width, height));
-                x += (width+1*3);
             }
+
+            int width = pixmap.width()/10*3;
+            int height = pixmap.height()/10*3;
+            painter.drawPixmap(x, 0, pixmap.scaled(width, height));
+            x += (width+1*3);
         }
     }
     update();
