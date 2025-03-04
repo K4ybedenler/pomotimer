@@ -32,7 +32,7 @@ Device::Device(Timer *timerInst)
         ":/buttons/pomo", ":/buttons/pomo_pressed", this);
     buttons["pause"] = new ActionButton(
         89, 111, 29, 20, "pause",
-        ":/buttons/pause", ":/buttons/pause_pressed",this);
+        ":/buttons/pause", ":/buttons/pause_pressed", this);
     buttons["settings"] = new ActionButton(
         130, 111, 21, 20, "settings",
         ":/buttons/yellow", ":/buttons/yellow_pressed", this);
@@ -42,9 +42,5 @@ Device::Device(Timer *timerInst)
     connect(this, &Window::request, this, [this, timerInst](){
         emit switchRequest(new WidgetWindow(timerInst));
     });
-
-//    connect(this, &Window::settings, this, [this, pageManager](){
-//        emit openSettings();
-//    });
 }
 

@@ -5,13 +5,12 @@
 #include <QLabel>
 #include <QLineEdit>
 
-TextLabel::TextLabel(const QString sentence, const QString type, MenuPage *parent)
-    : ClickableLabel{type, parent}, m_cache()
+TextLabel::TextLabel(const QString &sentence, MenuPage *parent)
+    : ClickableLabel(parent), m_cache()
 {
     setFixedSize(141*3, 12*3);
-    auto container = new QWidget(this);
-    auto layout = new QHBoxLayout(container);
-    int totalWidth = 0;
+    container = new QWidget(this);
+    layout = new QHBoxLayout(container);
 
     for (int i = 0; i < sentence.size(); i++){
         QString letter = sentence.mid(i, 1);
@@ -33,29 +32,20 @@ TextLabel::TextLabel(const QString sentence, const QString type, MenuPage *paren
         m_labels.append(label);
     }
 
-    if (type == "input"){
-        m_input = new Input(parent, this);
-//        qDebug() << this->metaObject()->className();
-//        qDebug() << this->parent()->metaObject()->className();
-        m_input->setFixedSize(150*3, 9*3);
-        layout->addWidget(m_input);
-        totalWidth+=150*3;
-    }
-
     container->move(4*3, 2*3);
     container->setFixedSize(totalWidth, 9*3);
     container->show();
     show();
 }
 
-void TextLabel::changeColor(QColor fromColor, QColor toColor){
-    for(QLabel *lb : m_labels){
+void TextLabel::changeColor(QColor fromColor, QColor toColor) {
+    for(QLabel *lb : m_labels) {
         QPixmap pixmap = lb->pixmap(Qt::ReturnByValue);
         if(!pixmap.isNull()) {
             QImage img = pixmap.toImage();
-            for(int y = 0; y<img.height(); y++){
-                for(int x = 0; x<img.width(); x++){
-                    if(img.pixelColor(x, y) == fromColor){
+            for(int y = 0; y<img.height(); y++) {
+                for(int x = 0; x<img.width(); x++) {
+                    if(img.pixelColor(x, y) == fromColor) {
                         img.setPixelColor(x, y, toColor);
                     }
                 }
@@ -65,7 +55,3 @@ void TextLabel::changeColor(QColor fromColor, QColor toColor){
     }
 }
 
-void TextLabel::updateInput() {
-//    qDebug() << "triggered";
-    m_input->update();
-}

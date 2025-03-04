@@ -2,6 +2,7 @@
 #include "menu_page.h"
 #include "window.h"
 #include "page_settings_timer.h"
+#include "text_label_link.h"
 
 #include <iterator>
 
@@ -50,23 +51,18 @@ void MenuPage::establishConnection(){
         connect(this, &MenuPage::activated, this, [](TextLabel *el){
             el->setPixmap(QPixmap(":/page_settings/square"));
             el->changeColor(QColor("#000000"), QColor("#B4B1C2"));
-//            if(el->m_type == "input"){
-//                el->updateInput();
-//            }
         });
 
         connect(this, &MenuPage::deactivated, this, [](TextLabel *el){
             el->clear();
-//            qDebug() << "deactivated";
             el->changeColor(QColor("#B4B1C2"), QColor("#000000"));
-            if(el->m_type == "input"){
-//                el->updateInput();
-            }
         });
 
-        connect(el, &ClickableLabel::clicked, this, [this, el](){
-                handleClick(el->m_type);
+        if(auto *linkLabel = qobject_cast<TextLabelLink*>(el)){
+            connect(el, &ClickableLabel::clicked, this, [this, linkLabel](){
+                handleClick(linkLabel->m_link);
             });
+        }
     }
 
     emit activated(m_active_el);

@@ -14,6 +14,7 @@ public:
     ~ActionButton();
     void changeToPressed();
     void changeToDefault();
+    QString m_type;
 
 protected:
     QString m_pressed, m_released;

@@ -32,7 +32,9 @@ qt_add_executable(pomotimer
     src/pages/page_settings.cpp
     src/pages/page_main.cpp
     # ui components
+    src/ui/text_label_input.cpp
     src/ui/clickable_label.cpp
+    src/ui/text_label_link.cpp
     src/ui/action_button.cpp
     src/ui/clock_face.cpp
     src/ui/text_label.cpp
@@ -56,7 +58,9 @@ qt_add_executable(pomotimer
     include/pages/page_settings.h
     include/pages/page_main.h
     # ui components
+    include/ui/text_label_input.h
     include/ui/clickable_label.h
+    include/ui/text_label_link.h
     include/ui/action_button.h
     include/ui/clock_face.h
     include/ui/text_label.h

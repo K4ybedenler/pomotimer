@@ -2,11 +2,11 @@
 
 ActionButton::ActionButton(
     int x, int y, int w, int h, const QString &btnType,
-    const QString &iconPath, const QString &pressIcon,
-    QWidget *parent)
-    : ClickableLabel(btnType, parent),
+    const QString &iconPath, const QString &pressIcon, QWidget *parent)
+    : ClickableLabel(parent),
     m_x(x), m_y(y), m_w(w), m_h(h), m_pressed(pressIcon), m_released(iconPath)
 {
+    m_type = btnType;
     setPixmap(QPixmap(iconPath));
     setGeometry(x*3, y*3, w*3, h*3);
 
