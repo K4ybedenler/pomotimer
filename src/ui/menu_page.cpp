@@ -3,6 +3,7 @@
 #include "window.h"
 #include "page_settings_timer.h"
 #include "text_label_link.h"
+#include "text_label_input.h"
 
 #include <iterator>
 
@@ -37,7 +38,7 @@ QLabel *MenuPage::createStaticLabel(
     return element;
 }
 
-void MenuPage::establishConnection(){
+void MenuPage::establishConnection(Window *device){
     for(TextLabel *el : menu_elements){
         el->setCursor(Qt::PointingHandCursor);
         connect(el, &ClickableLabel::hovered, this, [this, el](){
@@ -51,6 +52,9 @@ void MenuPage::establishConnection(){
         connect(this, &MenuPage::activated, this, [](TextLabel *el){
             el->setPixmap(QPixmap(":/page_settings/square"));
             el->changeColor(QColor("#000000"), QColor("#B4B1C2"));
+            if(auto *inputElement = qobject_cast<TextLabelInput*>(el)){
+                inputElement->focus();
+            };
         });
 
         connect(this, &MenuPage::deactivated, this, [](TextLabel *el){
@@ -61,6 +65,16 @@ void MenuPage::establishConnection(){
         if(auto *linkLabel = qobject_cast<TextLabelLink*>(el)){
             connect(el, &ClickableLabel::clicked, this, [this, linkLabel](){
                 handleClick(linkLabel->m_link);
+            });
+        }
+
+        if(auto *linkLabel = qobject_cast<TextLabelInput*>(el)){
+            connect(linkLabel->m_input, &Input::inputSignal, this, [device](QKeyEvent *event){
+                if(event->key() == Qt::Key_Up){
+                    emit device->up();
+                } else if(event->key() == Qt::Key_Down){
+                    emit device->down();
+                }
             });
         }
     }

@@ -22,7 +22,7 @@ public:
     void renderActiveArrow();
 
     QLabel *m_square = nullptr;
-    void establishConnection();
+    void establishConnection(Window *device);
 
 protected:
     QLabel *createStaticLabel(

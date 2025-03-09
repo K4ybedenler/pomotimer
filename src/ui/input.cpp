@@ -2,21 +2,42 @@
 
 #include <QPainter>
 
-Input::Input(MenuPage *page, QWidget *parent)
-    :QLineEdit(parent), m_page(page), m_parent(parent)
-{}
+Input::Input(MenuPage *page, QWidget *parent,
+             QString placeholder, int size, int maxNumber)
+    :QLineEdit(parent), m_page(page), m_parent(parent),
+    m_size(size), m_number(maxNumber)
+{
+    m_text = placeholder.split("");
+    setCursor(Qt::IBeamCursor);
+}
 
 void Input::paintEvent(QPaintEvent *event){
     changeColor(QColor("#000000"), QColor("#B4B1C2"));
+    update();
 }
 
 void Input::keyPressEvent(QKeyEvent *event){
     if (event->key() == Qt::Key_Backspace && !m_text.isEmpty()) {
         m_text.removeLast();
     } else if (event->key() >= Qt::Key_0 && event->key() <= Qt::Key_9) {
-        m_text.append(event->text());
+        if (!m_startTyping){
+            m_text.clear();
+            m_startTyping = true;
+        }
+        if (m_size && m_text.size()<m_size){
+            m_text.append(event->text());
+        } else if(!m_size){
+            m_text.append(event->text());
+        }
+    } else if(event->key() == Qt::Key_Up || event->key() == Qt::Key_Down){
+        emit inputSignal(event);
+        clearFocus();
     }
 }
+
+void Input::focusOutEvent(QFocusEvent *event){
+    m_startTyping = false;
+};
 
 void Input::changeColor(QColor fromColor, QColor toColor) {
     QPainter painter(this);

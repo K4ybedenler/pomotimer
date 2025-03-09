@@ -12,6 +12,6 @@ PageSettings::PageSettings(Window *device)
 
     m_active_el = menu_elements[0];
 
-    establishConnection();
+    establishConnection(device);
 }
 

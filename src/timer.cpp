@@ -8,12 +8,11 @@
 Timer::Timer()
 {
     if(!settings.contains("timer_time")){
-        settings.setValue("timer_time", 1800);
-        settings.setValue("pause_time", 300);
+        settings.setValue("timer_time", 30);
+        settings.setValue("pause_time", 5);
     }
 
-    settings.setValue("timer_time", 900);
-    totalSeconds = secondsLeft = settings.value("timer_time").toInt();
+    totalSeconds = secondsLeft = settings.value("timer_time").toInt()*60;
 
     m_timer = new QTimer(this);
 

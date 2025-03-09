@@ -10,10 +10,12 @@ PageSettingsTimer::PageSettingsTimer(Window *device)
     : MenuPage{device}
 {
     menu_elements.push_back(new TextLabelLink("../", "some", this));
-    menu_elements.push_back(new TextLabelInput("timer_time:", this));
-    menu_elements.push_back(new TextLabelInput("pause_time:", this));
+    menu_elements.push_back(new TextLabelInput(
+        "timer_time: ", "timer_time", this, 3, 120));
+    menu_elements.push_back(new TextLabelInput(
+        "pause_time: ", "pause_time", this, 2, 20));
 
     m_active_el = menu_elements[0];
 
-    establishConnection();
+    establishConnection(device);
 }

@@ -9,11 +9,14 @@ class TextLabelInput : public TextLabel {
 
 public:
     TextLabelInput(
-        const QString &sentence, MenuPage *parent = nullptr);
+        const QString &sentence, const QString &setting=0,
+        MenuPage *parent = nullptr, int size=10, int maxNumber=0,
+        const QString &units="", const QString &placeholder="");
+    void focus();
+    Input *m_input;
 
 private:
     void updateInput();
-    Input *m_input;
 };
 
 #endif
