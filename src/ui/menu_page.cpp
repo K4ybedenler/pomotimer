@@ -60,6 +60,9 @@ void MenuPage::establishConnection(Window *device){
         connect(this, &MenuPage::deactivated, this, [](TextLabel *el){
             el->clear();
             el->changeColor(QColor("#B4B1C2"), QColor("#000000"));
+            if(auto *inputLabel = qobject_cast<TextLabelInput*>(el)){
+                inputLabel->updateValue();
+            }
         });
 
         if(auto *linkLabel = qobject_cast<TextLabelLink*>(el)){
@@ -69,12 +72,13 @@ void MenuPage::establishConnection(Window *device){
         }
 
         if(auto *linkLabel = qobject_cast<TextLabelInput*>(el)){
-            connect(linkLabel->m_input, &Input::inputSignal, this, [device](QKeyEvent *event){
-                if(event->key() == Qt::Key_Up){
-                    emit device->up();
-                } else if(event->key() == Qt::Key_Down){
-                    emit device->down();
-                }
+            connect(linkLabel->m_input, &Input::inputSignal,
+                    this, [device](QKeyEvent *event){
+                        if(event->key() == Qt::Key_Up){
+                            emit device->up();
+                        } else if(event->key() == Qt::Key_Down){
+                            emit device->down();
+                        }
             });
         }
     }

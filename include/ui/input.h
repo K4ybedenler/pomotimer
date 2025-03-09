@@ -13,6 +13,8 @@ public:
     Input(MenuPage *page, QWidget *parent, QString placeholder = "",
           int size=10, int maxNumber=0);
 
+    QStringList m_text;
+
 protected:
     void paintEvent(QPaintEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
@@ -22,7 +24,6 @@ protected:
 private:
     bool        m_startTyping = false;
     LetterCache m_cache;
-    QStringList m_text;
     QWidget    *m_parent;
     MenuPage   *m_page;
     int         m_number;
@@ -30,6 +31,7 @@ private:
 
 signals:
     void inputSignal(QKeyEvent *event);
+    void settingUpd(const QString &str);
 };
 
 #endif

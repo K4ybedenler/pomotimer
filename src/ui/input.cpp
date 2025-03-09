@@ -31,6 +31,7 @@ void Input::keyPressEvent(QKeyEvent *event){
         }
     } else if(event->key() == Qt::Key_Up || event->key() == Qt::Key_Down){
         emit inputSignal(event);
+//        emit settingUpd(m_text.join(""));
         clearFocus();
     }
 }

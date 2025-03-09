@@ -13,10 +13,11 @@ public:
         MenuPage *parent = nullptr, int size=10, int maxNumber=0,
         const QString &units="", const QString &placeholder="");
     void focus();
+    void updateValue();
     Input *m_input;
 
 private:
-    void updateInput();
+    QString m_setting;
 };
 
 #endif

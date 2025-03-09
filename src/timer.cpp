@@ -38,6 +38,8 @@ Timer::~Timer(){
 }
 
 void Timer::start(){
+    totalSeconds = secondsLeft = settings.value("timer_time").toInt()*60;
+
     if(!m_started){
         m_timer->start(1000);
         m_connection = connect(
