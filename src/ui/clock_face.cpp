@@ -31,14 +31,14 @@ ClockFace::ClockFace(int x, int y, int w, int h, Timer *timer, QWidget *parent)
     face->setSpacing(0);
     face->setContentsMargins(0, 0, 0, 0);
 
-    updateClockFace(timer->left()/60, timer->left()%60);
+//    updateClockFace(timer->left()/60, timer->left()%60);
 
-    connect(timer, &Timer::shot, this, [this, timer](){
-        updateClockFace(timer->left()/60, timer->left()%60);
+    connect(timer, &Timer::shot, this, [this, timer](int timeRemain){
+        updateClockFace(timeRemain/60, timeRemain%60);
     });
 
-    connect(timer, &Timer::stopped, this, [this, timer](){
-        updateClockFace(timer->left()/60, timer->left()%60);
+    connect(timer, &Timer::stopped, this, [this, timer](int timeRemain){
+        updateClockFace(timeRemain/60, timeRemain%60);
     });
 
     setLayout(face);

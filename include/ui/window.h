@@ -25,6 +25,7 @@ protected:
 
 signals:
     void start();
+    void startBreak();
     void stop();
     void pause();
     void request();

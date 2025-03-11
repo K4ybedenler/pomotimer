@@ -8,11 +8,14 @@
 Timer::Timer()
 {
     if(!settings.contains("timer_time")){
-        settings.setValue("timer_time", 30);
-        settings.setValue("pause_time", 5);
+        settings.setValue("timer_time", 25);
+        settings.setValue("break_time", 5);
+        settings.setValue("time_befor_finish_break", 1);
+        settings.setValue("time_befor_finish_timer", 1);
     }
 
-    totalSeconds = secondsLeft = settings.value("timer_time").toInt()*60;
+    m_timer_time = m_timer_time_left = settings.value("timer_time").toInt()*60;
+    m_break_time = m_break_time_left = settings.value("break_time").toInt()*60;
 
     m_timer = new QTimer(this);
 
@@ -28,7 +31,7 @@ Timer::Timer()
 }
 
 Timer::~Timer(){
-    if(totalSeconds) {
+    if(m_timer_time) {
         stop();
     }
     sqlite3_finalize(stmtLaunches);
@@ -37,38 +40,33 @@ Timer::~Timer(){
     sqlite3_close(db);
 }
 
-void Timer::start(){
-    totalSeconds = secondsLeft = settings.value("timer_time").toInt()*60;
-
-    if(!m_started){
-        m_timer->start(1000);
-        m_connection = connect(
-            m_timer, &QTimer::timeout, this, [this](){
-                secondsLeft--;
-                if (secondsLeft<0) {
-                    secondsLeft = totalSeconds;
-                }
-                emit shot();
-            });
-
-        connect(this, &Timer::stopped,this, [this](){
-            if(m_connection != QMetaObject::Connection()){
-                disconnect(m_connection);
-            }
+void Timer::start(int &timeRemain){
+    m_timer->start(1000);
+    emit shot(timeRemain);
+    m_connection = connect(
+        m_timer, &QTimer::timeout, this, [this, &timeRemain](){
+            timeRemain--;
+            emit shot(timeRemain);
+            qDebug() << timeRemain << "shoted";
         });
 
-        connect(this, &Timer::paused,this, [this](){
-            if(m_connection != QMetaObject::Connection()){
-                disconnect(m_connection);
-            }
-        });
+    connect(this, &Timer::stopped,this, [this](){
+        if(m_connection != QMetaObject::Connection()){
+            disconnect(m_connection);
+        }
+    });
 
-        timerRing = new QTimer(this);
-        timerRing->setSingleShot(true);
-        new Ringtone(timerRing);
-    }
+    connect(this, &Timer::paused,this, [this](){
+        if(m_connection != QMetaObject::Connection()){
+            disconnect(m_connection);
+        }
+    });
 
-    int timeLeft = (secondsLeft-60)*1000;
+    timerRing = new QTimer(this);
+    timerRing->setSingleShot(true);
+    new Ringtone(timerRing);
+
+    int timeLeft = (timeRemain-60)*1000;
     timerRing->start(timeLeft);
     emit started();
     m_started = true;
@@ -78,6 +76,32 @@ void Timer::start(){
     lastId = sqlite3_last_insert_rowid(db);
 }
 
+void Timer::startTimer(){
+    m_started = false;
+    emit stopped();
+
+    m_timer_time = m_timer_time_left = settings.value("timer_time").toInt()*60;
+    qDebug() << "m_timer_time: " << m_timer_time;
+    qDebug() << "m_timer_time_left: " << m_timer_time_left;
+
+    QTimer::singleShot(m_timer_time*1000, this, &Timer::startBreak);
+
+    start(m_timer_time_left);
+}
+
+void Timer::startBreak(){
+    m_started = false;
+    emit stopped();
+
+    m_break_time = m_break_time_left = settings.value("break_time").toInt()*60;
+    qDebug() << "m_break_time: " << m_break_time;
+    qDebug() << "m_break_time_left: " << m_break_time_left;
+
+    QTimer::singleShot(m_break_time*1000, this, &Timer::startTimer);
+
+    start(m_break_time_left);
+}
+
 void Timer::stop(){
     if(m_started) {
         m_timer->stop();
@@ -85,7 +109,7 @@ void Timer::stop(){
             timerRing->deleteLater();
         }
         m_started = false;
-        secondsLeft = totalSeconds;
+        m_timer_time_left = m_timer_time;
         emit stopped();
 
         auto currentTime = std::chrono::steady_clock::now();
@@ -157,21 +181,21 @@ void Timer::bindStatement(sqlite3_stmt *stmt,
     sqlite3_bind_int64(stmt, columnNumber, value);
 }
 
-void Timer::finishRound() {
-    auto current_time = std::chrono::steady_clock::now();
-    auto timeSpan = std::chrono::duration_cast<std::chrono::milliseconds>(
-                         current_time - roundFinishTime
-                         ).count();
-    roundFinishTime = std::chrono::steady_clock::now();
-    if(sqlite3_step(stmtLastId) == SQLITE_ROW) {
-        lastId = sqlite3_column_int64(stmtLastId, 0) + 1;
-    }
-    bindStatement(stmtRounds, 2, lastId);
-    bindStatement(stmtRounds, 3, roundNumber);
-    bindStatement(stmtRounds, 4, timeSpan);
-    pushStatement(stmtRounds);
-    roundNumber++;
-}
+//void Timer::finishRound() {
+//    auto current_time = std::chrono::steady_clock::now();
+//    auto timeSpan = std::chrono::duration_cast<std::chrono::milliseconds>(
+//                         current_time - roundFinishTime
+//                         ).count();
+//    roundFinishTime = std::chrono::steady_clock::now();
+//    if(sqlite3_step(stmtLastId) == SQLITE_ROW) {
+//        lastId = sqlite3_column_int64(stmtLastId, 0) + 1;
+//    }
+//    bindStatement(stmtRounds, 2, lastId);
+//    bindStatement(stmtRounds, 3, roundNumber);
+//    bindStatement(stmtRounds, 4, timeSpan);
+//    pushStatement(stmtRounds);
+//    roundNumber++;
+//}
 
 void Timer::pushStatement(sqlite3_stmt *stmt) {
     sqlite3_step(stmt);

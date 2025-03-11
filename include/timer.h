@@ -16,31 +16,34 @@ class Timer : public QObject
 public:
     explicit Timer();
     ~Timer();
-    int left() const { return secondsLeft; };
+    int left() const { return m_timer_time_left; };
     bool status() const { return m_started; };
+    bool isBreak() const { return m_isBreak; };
 
 public slots:
-    void start();
     void stop();
     void pause();
+    void startBreak();
+    void startTimer();
 
 signals:
     void started();
     void stopped();
     void paused();
 
-    void shot();
+    void shot(int timeRemain);
 
 private:
+    void start(int &timeRemain);
     QTimer *m_timer;
     QTimer *timerRing = nullptr;
     QMetaObject::Connection m_connection;
     bool m_started = false;
-    int totalSeconds;
-    int secondsLeft;
-
-    double progress;    // can be deleted in future
-    void finishRound(); // can be deleted in future
+    bool m_isBreak = false;
+    int m_timer_time;
+    int m_break_time;
+    int m_timer_time_left;
+    int m_break_time_left;
 
     std::chrono::steady_clock::time_point startTime, roundFinishTime;
     std::chrono::system_clock::time_point startTimeDB,

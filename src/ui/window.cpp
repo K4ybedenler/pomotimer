@@ -12,7 +12,8 @@ Window::Window(Timer *timerInst)
 }
 void Window::establishButtonConnection(Timer *timerInst)
 {
-    connect(this, &Window::start, timerInst, &Timer::start);
+    connect(this, &Window::start, timerInst, &Timer::startTimer);
+    connect(this, &Window::startBreak, timerInst, &Timer::startBreak);
     connect(this, &Window::stop, timerInst, &Timer::stop);
     connect(this, &Window::pause, timerInst, &Timer::pause);
 
@@ -30,8 +31,11 @@ void Window::handleButtonClick(Timer *timerInst, const QString &action) {
         if(timerInst->status() && strcmp(this->name(),"device") == 0){
             emit request();
             return;
+        }else if(!timerInst->status() && !timerInst->isBreak()){
+            emit start();
+        }else if(timerInst->isBreak()){
+            emit startBreak();
         }
-        emit start();
     } else if(action == "pause") {
         emit pause();
     } else if(action == "stop") {

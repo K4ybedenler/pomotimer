@@ -13,7 +13,7 @@ PageSettingsTimer::PageSettingsTimer(Window *device)
     menu_elements.push_back(new TextLabelInput(
         "timer_time: ", "timer_time", this, 3, 120));
     menu_elements.push_back(new TextLabelInput(
-        "pause_time: ", "pause_time", this, 2, 20));
+        "break_time: ", "break_time", this, 2, 20));
 
     m_active_el = menu_elements[0];
 
