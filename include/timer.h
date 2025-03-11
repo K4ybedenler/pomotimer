@@ -28,7 +28,7 @@ public slots:
 
 signals:
     void started();
-    void stopped();
+    void stopped(int timeRemain);
     void paused();
 
     void shot(int timeRemain);

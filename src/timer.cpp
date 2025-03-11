@@ -78,9 +78,9 @@ void Timer::start(int &timeRemain){
 
 void Timer::startTimer(){
     m_started = false;
-    emit stopped();
-
     m_timer_time = m_timer_time_left = settings.value("timer_time").toInt()*60;
+    emit stopped(m_timer_time);
+
     qDebug() << "m_timer_time: " << m_timer_time;
     qDebug() << "m_timer_time_left: " << m_timer_time_left;
 
@@ -91,9 +91,9 @@ void Timer::startTimer(){
 
 void Timer::startBreak(){
     m_started = false;
-    emit stopped();
-
     m_break_time = m_break_time_left = settings.value("break_time").toInt()*60;
+    emit stopped(m_break_time);
+
     qDebug() << "m_break_time: " << m_break_time;
     qDebug() << "m_break_time_left: " << m_break_time_left;
 
@@ -110,7 +110,7 @@ void Timer::stop(){
         }
         m_started = false;
         m_timer_time_left = m_timer_time;
-        emit stopped();
+        emit stopped(m_timer_time);
 
         auto currentTime = std::chrono::steady_clock::now();
         finishTime = std::chrono::system_clock::now();
