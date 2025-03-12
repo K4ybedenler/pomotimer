@@ -47,7 +47,7 @@ void Timer::start(int &timeRemain){
         m_timer, &QTimer::timeout, this, [this, &timeRemain](){
             timeRemain--;
             emit shot(timeRemain);
-            qDebug() << timeRemain << "shoted";
+//            qDebug() << timeRemain << "shoted";
         });
 
     connect(this, &Timer::stopped,this, [this](){
@@ -81,9 +81,6 @@ void Timer::startTimer(){
     m_timer_time = m_timer_time_left = settings.value("timer_time").toInt()*60;
     emit stopped(m_timer_time);
 
-    qDebug() << "m_timer_time: " << m_timer_time;
-    qDebug() << "m_timer_time_left: " << m_timer_time_left;
-
     QTimer::singleShot(m_timer_time*1000, this, &Timer::startBreak);
 
     start(m_timer_time_left);
@@ -93,9 +90,6 @@ void Timer::startBreak(){
     m_started = false;
     m_break_time = m_break_time_left = settings.value("break_time").toInt()*60;
     emit stopped(m_break_time);
-
-    qDebug() << "m_break_time: " << m_break_time;
-    qDebug() << "m_break_time_left: " << m_break_time_left;
 
     QTimer::singleShot(m_break_time*1000, this, &Timer::startTimer);
 
