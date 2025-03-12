@@ -7,13 +7,15 @@ Input::Input(MenuPage *page, QWidget *parent,
     :QLineEdit(parent), m_page(page), m_parent(parent),
     m_size(size), m_number(maxNumber)
 {
+    m_num=0;
     m_text = placeholder.split("");
     setCursor(Qt::IBeamCursor);
 }
 
 void Input::paintEvent(QPaintEvent *event){
+    qDebug() << "fucking render process triggered " << m_num++ << " times";
+
     changeColor(QColor("#000000"), QColor("#B4B1C2"));
-    update();
 }
 
 void Input::keyPressEvent(QKeyEvent *event){
@@ -34,6 +36,7 @@ void Input::keyPressEvent(QKeyEvent *event){
 //        emit settingUpd(m_text.join(""));
         clearFocus();
     }
+    update();
 }
 
 void Input::focusOutEvent(QFocusEvent *event){
@@ -66,5 +69,4 @@ void Input::changeColor(QColor fromColor, QColor toColor) {
             x += (width+1*3);
         }
     }
-    update();
 }

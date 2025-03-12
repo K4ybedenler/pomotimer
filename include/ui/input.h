@@ -28,6 +28,7 @@ private:
     MenuPage   *m_page;
     int         m_number;
     int         m_size;
+    int         m_num;
 
 signals:
     void inputSignal(QKeyEvent *event);
