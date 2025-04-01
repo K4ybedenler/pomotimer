@@ -1,0 +1,11 @@
+BasedOnStyle:  Google
+IndentWidth: 4
+UseTab: Never
+TabWidth: 4
+ColumnLimit: 80
+AllowAllArgumentsOnNextLine: false
+SpaceBeforeParens: ControlStatements
+Cpp11BracedListStyle: true
+PointerAlignment: Left
+DerivePointerAlignment: false
+IndentCaseLabels: true 

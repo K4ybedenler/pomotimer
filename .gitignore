@@ -1,5 +1,6 @@
 # build dir
 /build/
+.cache
 
 # qt junk
 .user/
@@ -8,6 +9,7 @@
 # cmake files
 CMakeLists.txt.user
 CMakeCache.txt
+compile_commands.json
 
 # mac spec files
 .DS_Store
