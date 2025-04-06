@@ -1,6 +1,7 @@
 # build dir
 /build/
 .cache
+*.db
 
 # qt junk
 .user/

@@ -1,54 +1,54 @@
 #include "clock_face.h"
-#include "timer.h"
-#include "settings.h"
 
-#include <QWidget>
-#include <QTimer>
-#include <QLabel>
 #include <QHBoxLayout>
+#include <QLabel>
+#include <QTimer>
+#include <QWidget>
 
-ClockFace::ClockFace(int x, int y, int w, int h, Timer *timer, QWidget *parent)
+#include "timer.h"
+
+ClockFace::ClockFace(int x, int y, int w, int h, Timer* timer, QWidget* parent)
     : QLabel(parent) {
     setGeometry(x, y, w, h);
     setStyleSheet("background: transparent;");
 
-    for(int i = 0; i<5; i++) {
+    for (int i = 0; i < 5; i++) {
         digitsLabels[i] = new QLabel(this);
         digitsLabels[i]->setScaledContents(true);
-        if(i==2){
-            digitsLabels[i]->setFixedSize(9*3, 19*3);
+        if (i == 2) {
+            digitsLabels[i]->setFixedSize(9 * 3, 19 * 3);
         } else {
-            digitsLabels[i]->setFixedSize(17*3, 19*3);
+            digitsLabels[i]->setFixedSize(17 * 3, 19 * 3);
         }
     }
 
-    auto *face = new QHBoxLayout(this);
-    for(int i = 0; i<5; i++) {
+    auto* face = new QHBoxLayout(this);
+    for (int i = 0; i < 5; i++) {
         face->addWidget(digitsLabels[i]);
-        if(i<4){
-            face->addSpacing(4*3);
+        if (i < 4) {
+            face->addSpacing(4 * 3);
         }
     }
     face->setSpacing(0);
     face->setContentsMargins(0, 0, 0, 0);
 
-    connect(timer, &Timer::shot, this, [this, timer](int timeRemain){
-        updateClockFace(timeRemain/60, timeRemain%60);
+    connect(timer, &Timer::shot, this, [this, timer](int timeRemain) {
+        updateClockFace(timeRemain / 60, timeRemain % 60);
     });
 
-    connect(timer, &Timer::stopped, this, [this, timer](int timeRemain){
-        updateClockFace(timeRemain/60, timeRemain%60);
+    connect(timer, &Timer::stopped, this, [this, timer](int timeRemain) {
+        updateClockFace(timeRemain / 60, timeRemain % 60);
     });
 
-    emit timer->shot(settings.value("timer_time").toInt()*60);
+    emit timer->firstShot();
 
     setLayout(face);
     show();
 }
 
-ClockFace::~ClockFace(){}
+ClockFace::~ClockFace() {}
 
-void ClockFace::updateClockFace(int mins, int sex){
+void ClockFace::updateClockFace(int mins, int sex) {
     int minTens = mins / 10;
     int minUnits = mins % 10;
     int sexTens = sex / 10;
