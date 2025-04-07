@@ -20,7 +20,7 @@ Timer::Timer() {
     m_break_time = m_break_time_left =
         settings.value("break_time").toInt() * 60;
 
-    m_timer = new QTimer(this);
+    m_stopwatch = new QTimer(this);
 
     connect(this, &Timer::firstShot, this, [this]() {
         if (m_isBreak) {
@@ -52,13 +52,16 @@ Timer::~Timer() {
 }
 
 void Timer::start(int& timeRemain) {
-    m_timer->start(1000);
+    m_stopwatch->start(1000);
     emit shot(timeRemain);
     m_connection =
-        connect(m_timer, &QTimer::timeout, this, [this, &timeRemain]() {
-            timeRemain--;
-            emit shot(timeRemain);
-            //            qDebug() << timeRemain << "shoted";
+        connect(m_stopwatch, &QTimer::timeout, this, [this, &timeRemain]() {
+            emit shot(--timeRemain);
+            if (!timeRemain && !m_isBreak) {
+                startBreak();
+            } else if(!timeRemain && m_isBreak) {
+                startTimer();
+            }
         });
 
     connect(this, &Timer::stopped, this, [this]() {
@@ -89,29 +92,21 @@ void Timer::start(int& timeRemain) {
 
 void Timer::startTimer() {
     m_started = false;
-    m_timer_time = m_timer_time_left =
-        settings.value("timer_time").toInt() * 60;
     emit stopped(m_timer_time);
-
-    QTimer::singleShot(m_timer_time * 1000, this, &Timer::startBreak);
 
     start(m_timer_time_left);
 }
 
 void Timer::startBreak() {
     m_started = false;
-    m_break_time = m_break_time_left =
-        settings.value("break_time").toInt() * 60;
     emit stopped(m_break_time);
-
-    QTimer::singleShot(m_break_time * 1000, this, &Timer::startTimer);
 
     start(m_break_time_left);
 }
 
 void Timer::stop() {
     if (m_started) {
-        m_timer->stop();
+        m_stopwatch->stop();
         if (timerRing) {
             timerRing->deleteLater();
         }
@@ -146,7 +141,7 @@ void Timer::pause() {
     if (m_started) {
         emit paused();
         m_started = false;
-        m_timer->stop();
+        m_stopwatch->stop();
         if (timerRing) {
             timerRing->stop();
         }

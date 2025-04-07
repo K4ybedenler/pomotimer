@@ -35,7 +35,7 @@ class Timer : public QObject {
 
    private:
     void start(int& timeRemain);
-    QTimer* m_timer;
+    QTimer* m_stopwatch;
     QTimer* timerRing = nullptr;
     QMetaObject::Connection m_connection;
     bool m_started = false;
