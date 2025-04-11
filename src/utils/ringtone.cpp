@@ -1,12 +1,11 @@
 #include "ringtone.h"
 
-#include <QMediaPlayer>
 #include <QAudioOutput>
 #include <QLoggingCategory>
+#include <QMediaPlayer>
 #include <QTimer>
 
-Ringtone::Ringtone(QTimer *time)
-{
+Ringtone::Ringtone(QTimer* time) {
     QLoggingCategory::setFilterRules("qt.multimedia.ffmpeg.utils=false");
 
     player = new QMediaPlayer;
@@ -17,7 +16,7 @@ Ringtone::Ringtone(QTimer *time)
     connect(time, &QTimer::timeout, this, &Ringtone::ring);
 }
 
-void Ringtone::ring(){
+void Ringtone::ring() {
     player->play();
     this->deleteLater();
 }

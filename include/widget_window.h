@@ -1,12 +1,11 @@
+#pragma once
+
 #include "action_button.h"
 #include "timer.h"
 #include "window.h"
 #include "clock_face.h"
 
 #include <QWidget>
-
-#ifndef WIDGETWINDOW_H
-#define WIDGETWINDOW_H
 
 class WidgetWindow : public Window
 {
@@ -19,5 +18,3 @@ public:
     }
     ClockFace *time;
 };
-
-#endif

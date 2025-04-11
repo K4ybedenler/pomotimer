@@ -1,3 +1,5 @@
+#pragma once
+
 #include <sqlite3.h>
 
 #include <QLabel>
@@ -5,9 +7,6 @@
 #include <QPen>
 #include <QWidget>
 #include <chrono>
-
-#ifndef TIMER_H
-#define TIMER_H
 
 class Timer : public QObject {
     Q_OBJECT
@@ -94,5 +93,3 @@ class Timer : public QObject {
         "round_number INTEGER, "
         "round_time INTEGER);";
 };
-
-#endif

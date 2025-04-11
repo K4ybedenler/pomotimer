@@ -1,28 +1,21 @@
-#include "action_button.h"
-#include "timer.h"
-#include "window.h"
-#include "state_manager.h"
-#include "page.h"
+#pragma once
 
 #include <QWidget>
 
-#ifndef DEVICE_H
-#define DEVICE_H
+#include "action_button.h"
+#include "page.h"
+#include "state_manager.h"
+#include "timer.h"
+#include "window.h"
 
-class Device : public Window
-{
+class Device : public Window {
     Q_OBJECT
-public:
-    explicit Device(Timer *timerInst);
+   public:
+    explicit Device(Timer* timerInst);
     ~Device();
 
-    const char* name() const override {
-        return "device";
-    }
+    const char* name() const override { return "device"; }
 
-signals:
+   signals:
     void openSettings();
-
 };
-
-#endif

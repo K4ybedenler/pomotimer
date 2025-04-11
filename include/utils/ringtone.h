@@ -1,10 +1,8 @@
-#include "timer.h"
+#pragma once
 
+#include <QTimer>
 #include <QObject>
 #include <QMediaPlayer>
-
-#ifndef RINGTONE_H
-#define RINGTONE_H
 
 class Ringtone : public QObject
 {
@@ -17,5 +15,3 @@ public:
 
 signals:
 };
-
-#endif
