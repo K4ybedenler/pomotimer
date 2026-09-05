@@ -20,14 +20,23 @@ PageMain::PageMain(Timer *timerInst, Window *device)
     time = new ClockFace(28*3, 33*3, 93*3, 19*3, timerInst, this);
 
     connect(timerInst, &Timer::started, this, [this](){
+        if (m_resetTimer) {
+            m_resetTimer->stop();
+        }
         createTextLabel(":/started.png", 9, 131);
     });
 
     connect(timerInst, &Timer::stopped, this, [this](){
         createTextLabel(":/stopped.png", 9, 131);
-        QTimer::singleShot(1000, this, [this](){
-            createTextLabel(":/q_start.png", 18, 112);
-        });
+
+        if (!m_resetTimer) {
+            m_resetTimer = new QTimer(this);
+            m_resetTimer->setSingleShot(true);
+            connect(m_resetTimer, &QTimer::timeout, this, [this](){
+                createTextLabel(":/q_start.png", 18, 112);
+            });
+        }
+        m_resetTimer->start(1000);
     });
 
     connect(timerInst, &Timer::paused, this, [this](){

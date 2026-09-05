@@ -20,6 +20,7 @@ class PageMain : public Page {
     QLabel* textLabel = nullptr;
     void createTextLabel(const QString buttonName, int x, int w);
     ClockFace* time;
+    QTimer* m_resetTimer = nullptr;
 };
 
 #endif
