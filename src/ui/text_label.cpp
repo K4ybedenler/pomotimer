@@ -38,6 +38,39 @@ TextLabel::TextLabel(const QString &sentence, MenuPage *parent)
     show();
 }
 
+TextLabel::TextLabel(
+    const QStringList &columns, const QList<int> &xPositions,
+    MenuPage *parent)
+    : ClickableLabel(parent), m_cache()
+{
+    setFixedSize(141*3, 12*3);
+    container = new QWidget(this);
+    layout = nullptr;
+
+    for (int c = 0; c < columns.size(); c++) {
+        int x = xPositions.value(c, 0);
+        const QString &text = columns[c];
+
+        for (int i = 0; i < text.size(); i++) {
+            QString letter = text.mid(i, 1);
+            QLabel *label = new QLabel(container);
+            label->setPixmap(m_cache.getLetter(letter));
+            label->setScaledContents(true);
+            int width = m_cache.getLetter(letter).width()/10*3;
+            int height = m_cache.getLetter(letter).height()/10*3;
+            label->setGeometry(x, 0, width, height);
+            label->show();
+            x += width + 3;
+            m_labels.append(label);
+        }
+    }
+
+    container->move(4*3, 2*3);
+    container->setFixedSize(135*3, 9*3);
+    container->show();
+    show();
+}
+
 void TextLabel::changeColor(QColor fromColor, QColor toColor) {
     for(QLabel *lb : m_labels) {
         QPixmap pixmap = lb->pixmap(Qt::ReturnByValue);

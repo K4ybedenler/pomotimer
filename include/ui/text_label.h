@@ -48,6 +48,9 @@ class TextLabel : public ClickableLabel
 public:
     explicit TextLabel(
         const QString &sentence, MenuPage *parent = nullptr);
+    explicit TextLabel(
+        const QStringList &columns, const QList<int> &xPositions,
+        MenuPage *parent = nullptr);
 
     void changeColor(QColor fromColor, QColor toColor);
     void updateLetter(int index, const QString &newLetter);

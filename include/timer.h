@@ -5,8 +5,16 @@
 #include <QLabel>
 #include <QPainter>
 #include <QPen>
+#include <QVector>
 #include <QWidget>
 #include <chrono>
+
+struct RunRecord {
+    qint64 startMs;
+    qint64 finishMs;
+    int timePassedSec;
+    bool wasInterrupted;
+};
 
 class Timer : public QObject {
     Q_OBJECT
@@ -17,6 +25,7 @@ class Timer : public QObject {
     int left() const { return m_timer_time_left; };
     bool status() const { return m_started; };
     bool isBreak() const { return m_isBreak; };
+    QVector<RunRecord> fetchRecentRuns(int limit) const;
 
    public slots:
     void stop();
@@ -39,6 +48,7 @@ class Timer : public QObject {
     QMetaObject::Connection m_connection;
     bool m_started = false;
     bool m_isBreak = false;
+    bool m_isPaused = false;
     int m_timer_time;
     int m_break_time;
     int m_timer_time_left;
@@ -52,8 +62,10 @@ class Timer : public QObject {
     void queryPrepare(const char* query_tmpl, sqlite3_stmt*& stmt);
     sqlite3* db;
     sqlite3_int64 lastId;
-    sqlite3_stmt *stmtLaunches, *stmtRounds, *stmtLastId;
+    sqlite3_stmt *stmtLaunches, *stmtRounds, *stmtLastId, *stmtRuns;
     int roundNumber = 1;
+
+    void recordRun(bool wasInterrupted, int timePassedSeconds);
 
     void bindStatement(sqlite3_stmt* stmt, int columnNumber,
                        std::chrono::system_clock::time_point timePoint);
@@ -92,4 +104,20 @@ class Timer : public QObject {
         "launch_id INTEGER, "
         "round_number INTEGER, "
         "round_time INTEGER);";
+
+    const char* insertRun =
+        "INSERT INTO runs ("
+        "start_time, "
+        "finish_time, "
+        "time_passed, "
+        "was_interrupted) "
+        "VALUES (?, ?, ?, ?)";
+
+    const char* sqlRuns =
+        "CREATE TABLE IF NOT EXISTS runs ("
+        "run_id INTEGER PRIMARY KEY, "
+        "start_time INTEGER, "
+        "finish_time INTEGER, "
+        "time_passed INTEGER, "
+        "was_interrupted INTEGER);";
 };

@@ -10,6 +10,7 @@ PageSettings::PageSettings(Window *device, Timer *timerInst)
 {
     menu_elements.push_back(new TextLabelLink("../", "back_to_timer", this));
     menu_elements.push_back(new TextLabelLink("timer", "timer", this));
+    menu_elements.push_back(new TextLabelLink("launches", "launches", this));
 
     m_active_el = menu_elements[0];
 

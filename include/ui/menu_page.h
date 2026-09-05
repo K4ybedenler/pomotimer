@@ -4,6 +4,7 @@
 #include "action_button.h"
 #include "window.h"
 
+#include <QSet>
 #include <QWidget>
 
 #include <deque>
@@ -27,6 +28,11 @@ public:
 protected:
     Timer *m_timer = nullptr;
 
+    // Elements that occupy a slot and scroll with the list, but are never
+    // selectable (no highlight, no click handling) - e.g. column headers.
+    QSet<TextLabel *> m_staticElements;
+    int m_scrollOffset = 0;
+
     QLabel *createStaticLabel(
         int x, int y, int w, int h, const QString &pic);
 
@@ -38,6 +44,7 @@ protected:
     void handleClick(const QString &action);
     void align();
     void nextEl(const QString &dir);
+    void ensureVisible(int index);
 
 signals:
     // page requests:

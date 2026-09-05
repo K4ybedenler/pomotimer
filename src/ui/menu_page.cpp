@@ -2,6 +2,7 @@
 
 #include <iterator>
 
+#include "page_launches.h"
 #include "page_main.h"
 #include "page_settings.h"
 #include "page_settings_timer.h"
@@ -36,6 +37,10 @@ QLabel *MenuPage::createStaticLabel(int x, int y, int w, int h,
 
 void MenuPage::establishConnection(Window *device) {
     for (TextLabel *el : menu_elements) {
+        if (m_staticElements.contains(el)) {
+            continue;
+        }
+
         el->setCursor(Qt::PointingHandCursor);
         connect(el, &ClickableLabel::hovered, this, [this, el]() {
             if (m_active_el) {
@@ -83,10 +88,23 @@ void MenuPage::establishConnection(Window *device) {
 }
 
 void MenuPage::align() {
-    for (int i(0), p(2); i < 4; i++, p += 14) {
-        if (i < menu_elements.size()) {
-            menu_elements[i]->move(2 * 3, p * 3);
+    const int kWindow = 4;
+    for (int i = 0; i < static_cast<int>(menu_elements.size()); i++) {
+        bool visible = i >= m_scrollOffset && i < m_scrollOffset + kWindow;
+        menu_elements[i]->setVisible(visible);
+        if (visible) {
+            int slot = i - m_scrollOffset;
+            menu_elements[i]->move(2 * 3, (2 + slot * 14) * 3);
         }
+    }
+}
+
+void MenuPage::ensureVisible(int index) {
+    const int kWindow = 4;
+    if (index < m_scrollOffset) {
+        m_scrollOffset = index;
+    } else if (index > m_scrollOffset + kWindow - 1) {
+        m_scrollOffset = index - kWindow + 1;
     }
 }
 
@@ -95,6 +113,8 @@ void MenuPage::handleClick(const QString &action) {
 
     if (action == "timer") {
         emit switchRequest(new PageSettingsTimer(device, m_timer));
+    } else if (action == "launches") {
+        emit switchRequest(new PageLaunches(device, m_timer));
     } else if (action == "back_to_settings") {
         emit switchRequest(new PageSettings(device, m_timer));
     } else if (action == "back_to_timer") {
@@ -103,29 +123,35 @@ void MenuPage::handleClick(const QString &action) {
 }
 
 void MenuPage::nextEl(const QString &dir) {
+    if (menu_elements.empty()) {
+        return;
+    }
+
     auto it =
         std::find(menu_elements.begin(), menu_elements.end(), m_active_el);
     auto prev = m_active_el;
 
-    if (it == menu_elements.end()) {
-        return;
-    }
+    int index = (it != menu_elements.end())
+        ? std::distance(menu_elements.begin(), it)
+        : 0;
 
-    int index = std::distance(menu_elements.begin(), it);
-
-    if (dir == "up") {
-        if (index == 0) {
-            m_active_el = menu_elements.back();
-        } else {
-            m_active_el = menu_elements[index - 1];
-        }
-    } else if (dir == "down") {
-        if (index == menu_elements.size() - 1) {
-            m_active_el = menu_elements.front();
-        } else {
-            m_active_el = menu_elements[index + 1];
+    int step = (dir == "up") ? -1 : 1;
+    int size = static_cast<int>(menu_elements.size());
+    int next = index;
+    for (int tries = 0; tries < size; tries++) {
+        next = (next + step + size) % size;
+        if (!m_staticElements.contains(menu_elements[next])) {
+            break;
         }
     }
-    emit deactivated(prev);
-    emit activated(m_active_el);
+
+    m_active_el = menu_elements[next];
+
+    if (m_active_el != prev) {
+        emit deactivated(prev);
+        emit activated(m_active_el);
+    }
+
+    ensureVisible(next);
+    align();
 }

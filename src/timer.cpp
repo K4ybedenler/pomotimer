@@ -36,9 +36,11 @@ Timer::Timer() {
 
     dbPrepare(sqlLaunches);
     dbPrepare(sqlRounds);
+    dbPrepare(sqlRuns);
     queryPrepare(insertLaunch, stmtLaunches);
     queryPrepare(insertRound, stmtRounds);
     queryPrepare(lastLaunchId, stmtLastId);
+    queryPrepare(insertRun, stmtRuns);
 }
 
 Timer::~Timer() {
@@ -48,6 +50,7 @@ Timer::~Timer() {
     sqlite3_finalize(stmtLaunches);
     sqlite3_finalize(stmtRounds);
     sqlite3_finalize(stmtLastId);
+    sqlite3_finalize(stmtRuns);
     sqlite3_close(db);
 }
 
@@ -58,6 +61,7 @@ void Timer::start(int& timeRemain) {
         connect(m_stopwatch, &QTimer::timeout, this, [this, &timeRemain]() {
             emit shot(--timeRemain);
             if (!timeRemain && !m_isBreak) {
+                recordRun(false, m_timer_time);
                 startBreak();
             } else if(!timeRemain && m_isBreak) {
                 startTimer();
@@ -84,13 +88,17 @@ void Timer::start(int& timeRemain) {
     timerRing->start(timeLeft);
     emit started();
     m_started = true;
-    roundFinishTime = startTime = std::chrono::steady_clock::now();
-    roundFinishTimeDB = startTimeDB = std::chrono::system_clock::now();
+    if (!m_isPaused) {
+        roundFinishTime = startTime = std::chrono::steady_clock::now();
+        roundFinishTimeDB = startTimeDB = std::chrono::system_clock::now();
+    }
+    m_isPaused = false;
     bindStatement(stmtLaunches, 2, startTimeDB);
     lastId = sqlite3_last_insert_rowid(db);
 }
 
 void Timer::startTimer() {
+    m_isBreak = false;
     m_started = false;
     emit stopped(m_timer_time);
 
@@ -98,6 +106,7 @@ void Timer::startTimer() {
 }
 
 void Timer::startBreak() {
+    m_isBreak = true;
     m_started = false;
     emit stopped(m_break_time);
 
@@ -111,6 +120,11 @@ void Timer::stop() {
             timerRing->deleteLater();
         }
         m_started = false;
+
+        if (!m_isBreak) {
+            recordRun(true, m_timer_time - m_timer_time_left);
+        }
+
         m_timer_time_left = m_timer_time;
         emit stopped(m_timer_time);
 
@@ -141,6 +155,7 @@ void Timer::pause() {
     if (m_started) {
         emit paused();
         m_started = false;
+        m_isPaused = true;
         m_stopwatch->stop();
         if (timerRing) {
             timerRing->stop();
@@ -198,4 +213,40 @@ void Timer::pushStatement(sqlite3_stmt* stmt) {
     sqlite3_step(stmt);
     sqlite3_reset(stmt);
     sqlite3_clear_bindings(stmt);
+}
+
+void Timer::recordRun(bool wasInterrupted, int timePassedSeconds) {
+    bindStatement(stmtRuns, 1, startTimeDB);
+    bindStatement(stmtRuns, 2, std::chrono::system_clock::now());
+    bindStatement(stmtRuns, 3,
+                  static_cast<sqlite3_int64>(timePassedSeconds));
+    bindStatement(stmtRuns, 4,
+                  static_cast<sqlite3_int64>(wasInterrupted ? 1 : 0));
+    pushStatement(stmtRuns);
+}
+
+QVector<RunRecord> Timer::fetchRecentRuns(int limit) const {
+    QVector<RunRecord> runs;
+
+    sqlite3_stmt* stmt;
+    const char* query =
+        "SELECT start_time, finish_time, time_passed, was_interrupted "
+        "FROM runs ORDER BY run_id DESC LIMIT ?;";
+
+    if (sqlite3_prepare_v2(db, query, -1, &stmt, nullptr) != SQLITE_OK) {
+        return runs;
+    }
+
+    sqlite3_bind_int(stmt, 1, limit);
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
+        RunRecord run;
+        run.startMs = sqlite3_column_int64(stmt, 0);
+        run.finishMs = sqlite3_column_int64(stmt, 1);
+        run.timePassedSec = sqlite3_column_int(stmt, 2);
+        run.wasInterrupted = sqlite3_column_int(stmt, 3) != 0;
+        runs.append(run);
+    }
+
+    sqlite3_finalize(stmt);
+    return runs;
 }
