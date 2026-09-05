@@ -2,6 +2,8 @@
 
 #include <sqlite3.h>
 
+#include <QDateTime>
+#include <QTime>
 #include <QTimer>
 
 #include "ringtone.h"
@@ -223,6 +225,32 @@ void Timer::recordRun(bool wasInterrupted, int timePassedSeconds) {
     bindStatement(stmtRuns, 4,
                   static_cast<sqlite3_int64>(wasInterrupted ? 1 : 0));
     pushStatement(stmtRuns);
+}
+
+void Timer::clearAllRuns() {
+    char* errMsg = nullptr;
+    if (sqlite3_exec(db, "DELETE FROM runs;", 0, 0, &errMsg) != SQLITE_OK) {
+        qDebug() << "SQL error: " << errMsg;
+        sqlite3_free(errMsg);
+    }
+}
+
+void Timer::clearRunsForToday() {
+    QDateTime startOfDay(QDateTime::currentDateTime());
+    startOfDay.setTime(QTime(0, 0));
+    qint64 startMs = startOfDay.toMSecsSinceEpoch();
+    qint64 endMs = startOfDay.addDays(1).toMSecsSinceEpoch();
+
+    QString query = QString(
+        "DELETE FROM runs WHERE start_time >= %1 AND start_time < %2;")
+        .arg(startMs).arg(endMs);
+
+    char* errMsg = nullptr;
+    if (sqlite3_exec(db, query.toUtf8().constData(), 0, 0, &errMsg) !=
+        SQLITE_OK) {
+        qDebug() << "SQL error: " << errMsg;
+        sqlite3_free(errMsg);
+    }
 }
 
 QVector<RunRecord> Timer::fetchRecentRuns(int limit) const {

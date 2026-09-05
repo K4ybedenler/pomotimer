@@ -26,6 +26,8 @@ class Timer : public QObject {
     bool status() const { return m_started; };
     bool isBreak() const { return m_isBreak; };
     QVector<RunRecord> fetchRecentRuns(int limit) const;
+    void clearAllRuns();
+    void clearRunsForToday();
 
    public slots:
     void stop();

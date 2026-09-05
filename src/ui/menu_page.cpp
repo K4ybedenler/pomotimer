@@ -2,6 +2,7 @@
 
 #include <iterator>
 
+#include "page_clear_history.h"
 #include "page_launches.h"
 #include "page_main.h"
 #include "page_settings.h"
@@ -115,6 +116,18 @@ void MenuPage::handleClick(const QString &action) {
         emit switchRequest(new PageSettingsTimer(device, m_timer));
     } else if (action == "launches") {
         emit switchRequest(new PageLaunches(device, m_timer));
+    } else if (action == "clear_history") {
+        emit switchRequest(new PageClearHistory(device, m_timer));
+    } else if (action == "clear_full_history") {
+        if (m_timer) {
+            m_timer->clearAllRuns();
+        }
+        emit switchRequest(new PageSettings(device, m_timer));
+    } else if (action == "clear_today_history") {
+        if (m_timer) {
+            m_timer->clearRunsForToday();
+        }
+        emit switchRequest(new PageSettings(device, m_timer));
     } else if (action == "back_to_settings") {
         emit switchRequest(new PageSettings(device, m_timer));
     } else if (action == "back_to_timer") {
