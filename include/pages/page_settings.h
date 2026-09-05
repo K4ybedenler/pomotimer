@@ -13,7 +13,7 @@ class PageSettings : public MenuPage
 {
     Q_OBJECT
 public:
-    explicit PageSettings(Window *parent = nullptr);
+    explicit PageSettings(Window *parent = nullptr, Timer *timerInst = nullptr);
     ~PageSettings();
     QLabel *textLabel;
 

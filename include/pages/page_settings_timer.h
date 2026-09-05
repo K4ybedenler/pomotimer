@@ -8,7 +8,7 @@ class PageSettingsTimer : public MenuPage
 {
     Q_OBJECT
 public:
-    PageSettingsTimer(Window *parent);
+    PageSettingsTimer(Window *parent, Timer *timerInst = nullptr);
     ~PageSettingsTimer();
 };
 

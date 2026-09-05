@@ -2,6 +2,8 @@
 
 #include <iterator>
 
+#include "page_main.h"
+#include "page_settings.h"
 #include "page_settings_timer.h"
 #include "text_label.h"
 #include "text_label_input.h"
@@ -10,7 +12,8 @@
 
 MenuPage::~MenuPage() {};
 
-MenuPage::MenuPage(Window *device) : Page{device} {
+MenuPage::MenuPage(Window *device, Timer *timerInst)
+    : Page{device}, m_timer(timerInst) {
     connect(device, &Window::up, this, [this]() { nextEl("up"); });
     connect(device, &Window::down, this, [this]() { nextEl("down"); });
 
@@ -88,9 +91,14 @@ void MenuPage::align() {
 }
 
 void MenuPage::handleClick(const QString &action) {
+    auto *device = qobject_cast<Window *>(this->parent());
+
     if (action == "timer") {
-        emit switchRequest(
-            new PageSettingsTimer(qobject_cast<Window *>(this->parent())));
+        emit switchRequest(new PageSettingsTimer(device, m_timer));
+    } else if (action == "back_to_settings") {
+        emit switchRequest(new PageSettings(device, m_timer));
+    } else if (action == "back_to_timer") {
+        emit switchRequest(new PageMain(m_timer, device));
     }
 }
 

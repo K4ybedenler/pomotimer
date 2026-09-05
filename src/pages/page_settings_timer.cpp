@@ -6,10 +6,10 @@
 
 PageSettingsTimer::~PageSettingsTimer(){}
 
-PageSettingsTimer::PageSettingsTimer(Window *device)
-    : MenuPage{device}
+PageSettingsTimer::PageSettingsTimer(Window *device, Timer *timerInst)
+    : MenuPage{device, timerInst}
 {
-    menu_elements.push_back(new TextLabelLink("../", "some", this));
+    menu_elements.push_back(new TextLabelLink("../", "back_to_settings", this));
     menu_elements.push_back(new TextLabelInput(
         "timer_time: ", "timer_time", this, 3, 120));
     menu_elements.push_back(new TextLabelInput(

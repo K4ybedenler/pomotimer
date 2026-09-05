@@ -15,7 +15,7 @@ class MenuPage : public Page
 {
     Q_OBJECT
 public:
-    explicit MenuPage(Window *parent = nullptr);
+    explicit MenuPage(Window *parent = nullptr, Timer *timerInst = nullptr);
     ~MenuPage();
     std::deque<TextLabel *> menu_elements;
     TextLabel *m_active_el = nullptr;
@@ -25,6 +25,8 @@ public:
     void establishConnection(Window *device);
 
 protected:
+    Timer *m_timer = nullptr;
+
     QLabel *createStaticLabel(
         int x, int y, int w, int h, const QString &pic);
 

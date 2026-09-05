@@ -35,7 +35,7 @@ PageMain::PageMain(Timer *timerInst, Window *device)
     });
 
     connect(device, &Window::settings, this, [this, timerInst, device](){
-        emit switchRequest(new PageSettings(device));
+        emit switchRequest(new PageSettings(device, timerInst));
     });
 }
 
