@@ -27,6 +27,7 @@ include_directories(
 qt_add_executable(pomotimer
     WIN32 MACOSX_BUNDLE
     resources/pomo.qrc
+    resources/app.rc
     # utilities
     src/utils/settings.cpp
     src/utils/ringtone.cpp

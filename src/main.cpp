@@ -1,4 +1,5 @@
 #include <QApplication>
+#include <QIcon>
 
 #include "device.h"
 #include "state_manager.h"
@@ -7,6 +8,7 @@
 
 int main(int argc, char* argv[]) {
     QApplication a(argc, argv);
+    a.setWindowIcon(QIcon(":/buttons/pomo"));
 
     auto* timer = new Timer;
 
