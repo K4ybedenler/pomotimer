@@ -13,10 +13,12 @@ WidgetWindow::WidgetWindow(Timer *timerInst)
     setStyleSheet("background-color: #3c423d;");
 
     auto device = new QLabel(this);
-    device->setPixmap(QPixmap(":/widget_bg.png"));
+    QPixmap widgetPixmap(":/widget_bg.png");
+    device->setPixmap(widgetPixmap);
     device->setGeometry(0, 0, 97*3, 46*3);
     device->setScaledContents(true);
     device->show();
+    setMask(widgetPixmap.scaled(97*3, 46*3).mask());
 
     buttons["stop"] = new ActionButton(
         1, 25, 21, 20, "stop",

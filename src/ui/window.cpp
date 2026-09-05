@@ -4,9 +4,11 @@
 #include "state_manager.h"
 
 #include <QTimer>
+#include <QMouseEvent>
 
 Window::Window(Timer *timerInst)
 {
+    setWindowFlag(Qt::FramelessWindowHint);
     show();
     setAttribute(Qt::WA_DeleteOnClose);
 }
@@ -44,6 +46,20 @@ void Window::handleButtonClick(Timer *timerInst, const QString &action) {
         emit request();
     } else if(action == "settings"){
         emit settings();
+    }
+}
+
+void Window::mousePressEvent(QMouseEvent *event){
+    if (event->button() == Qt::LeftButton) {
+        m_dragOffset = event->globalPosition().toPoint() - frameGeometry().topLeft();
+        event->accept();
+    }
+}
+
+void Window::mouseMoveEvent(QMouseEvent *event){
+    if (event->buttons() & Qt::LeftButton) {
+        move(event->globalPosition().toPoint() - m_dragOffset);
+        event->accept();
     }
 }
 

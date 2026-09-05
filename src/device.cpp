@@ -16,10 +16,12 @@ Device::Device(Timer *timerInst)
     setStyleSheet("background-color: #3c423d;");
 
     auto device = new QLabel(this);
-    device->setPixmap(QPixmap(":/device.png"));
+    QPixmap devicePixmap(":/device.png");
+    device->setPixmap(devicePixmap);
     device->setGeometry(0, 0, 166*3, 149*3);
     device->setScaledContents(true);
     device->show();
+    setMask(devicePixmap.scaled(166*3, 149*3).mask());
 
     auto *pageManager = new StateManager<Page>(
         new PageMain(timerInst, this), timerInst, this);

@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.19)
 project(pomotimer LANGUAGES CXX)
 
 find_package(Qt6 6.5 REQUIRED COMPONENTS Core Widgets Multimedia)
+find_package(unofficial-sqlite3 CONFIG REQUIRED)
 
 qt_standard_project_setup()
 
@@ -82,7 +83,7 @@ target_link_libraries(pomotimer
         Qt::Multimedia
         Qt::Core
         Qt::Widgets
-        sqlite3
+        unofficial::sqlite3::sqlite3
 )
 
 include(GNUInstallDirs)
@@ -91,6 +92,11 @@ install(TARGETS pomotimer
     BUNDLE  DESTINATION .
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+)
+
+# windeployqt only copies Qt/MinGW runtime DLLs, so ship sqlite3's DLL ourselves.
+install(FILES $<TARGET_FILE:unofficial::sqlite3::sqlite3>
+    DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
 qt_generate_deploy_app_script(
