@@ -3,6 +3,10 @@
 .cache
 *.db
 
+# link to the built exe, created by build.py
+/pomotimer.lnk
+/pomotimer
+
 # qt junk
 .user/
 .pro.user
